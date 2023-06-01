@@ -13,6 +13,7 @@ use App\Http\Controllers\CashTransactionReportController;
 use App\Http\Controllers\SchoolClassHistoryController;
 use App\Http\Controllers\SchoolMajorHistoryController;
 use App\Http\Controllers\StudentHistoryController;
+use App\Http\Controllers\BillController;
 
 require __DIR__ . '/auth.php';
 
@@ -30,6 +31,8 @@ Route::middleware('auth')->group(function () {
 
         Route::get('/cash-transactions/filter', CashTransactionFilterController::class)->name('cash-transactions.filter');
         Route::resource('cash-transactions', CashTransactionController::class)->except('create', 'show', 'edit');
+
+        Route::resource('billings', BillController::class)->except('create', 'show');
 
         //  Report routes
         Route::get('/report', CashTransactionReportController::class)->name('report.index');

@@ -78,7 +78,7 @@
 									</div>
 								</div>
 								<div class="col-md-8">
-									<h6 class="text-muted font-semibold">Kas Bulan Ini</h6>
+									<h6 class="text-muted font-semibold">Transaksi 3 bulan terakhir</h6>
 									<h6 class="font-extrabold mb-0">{{ $amountThisMonth }}</h6>
 								</div>
 							</div>
@@ -92,24 +92,39 @@
 			<div class="col-12 col-xl-12">
 				<div class="card">
 					<div class="card-header">
-						<h4>5 Transaksi Terakhir</h4>
+						<h4>5 transaksi terakhir</h4>
 					</div>
 					<div class="card-body">
 						<div class="table-responsive">
-							<table class="table table-hover table-striped table-lg">
+							<table class="table table-hover table-lg">
 								<thead>
 									<tr>
+										<th>Daftar</th>
+										<th>Kode transaksi</th>
 										<th>Nama Pelajar</th>
-										<th>Total Bayar</th>
+										<th>Jumlah Bayar</th>
 										<th>Tanggal</th>
 										<th>Pencatat</th>
-										<th>Detail</th>
 									</tr>
 								</thead>
 								<tbody>
 									@forelse($latestCashTransactions as $latestCashTransaction)
 									<tr>
-										<td class="col-5">
+										<td class="col-auto">
+											<div class="d-flex align-items-center">
+												<p class="font-bold ms-3 mb-0">
+													{{ $loop->iteration }}
+												</p>
+											</div>
+										</td>
+										<td class="col-auto">
+											<div class="d-flex align-items-center">
+												<p class="font-bold ms-3 mb-0">
+													{{ $latestCashTransaction->transaction_code }}
+												</p>
+											</div>
+										</td>
+										<td class="col-auto">
 											<div class="d-flex align-items-center">
 												<p class="font-bold ms-3 mb-0">
 													{{ $latestCashTransaction->students->name }}
@@ -131,15 +146,6 @@
 												{{ $latestCashTransaction->users->name }}
 											</p>
 										</td>
-										<td class="col-auto">
-											<p class="mb-0">
-												<button type="button" data-id="{{ $latestCashTransaction->id }}"
-													class="btn btn-primary btn-sm cash-transaction-detail" data-bs-toggle="modal"
-													data-bs-target="#showCashTransactionModal">
-													<i class="bi bi-search"></i>
-												</button>
-											</p>
-										</td>
 									</tr>
 									@empty
 									<tr>
@@ -158,11 +164,3 @@
 	</div>
 </section>
 @endsection
-
-@push('modal')
-@include('dashboard.modal.show')
-@endpush
-
-@push('js')
-@include('dashboard.script')
-@endpush

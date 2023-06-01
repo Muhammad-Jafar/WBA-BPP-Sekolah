@@ -8,10 +8,7 @@ use App\Models\CashTransaction;
 
 class DashboardChartRepository extends Controller implements ChartInterface
 {
-    public function __construct(
-        private CashTransaction $model,
-    ) {
-    }
+    public function __construct(private CashTransaction $model) {}
 
     /**
      * Hitung seluruh kolom amount pada tabel cash_transactions dipisahkan dengan bulan dari 1-12.
@@ -20,15 +17,15 @@ class DashboardChartRepository extends Controller implements ChartInterface
      */
     public function sumCashTransactionPerMonths(): array
     {
-        $months = ['jan', 'feb', 'mar', 'apr', 'mei', 'jun', 'jul', 'agu', 'sep', 'okt', 'nov', 'des'];
+        $months = ['jul', 'agu', 'sep', 'okt', 'nov', 'des','jan', 'feb', 'mar', 'apr', 'mei', 'jun'];
 
         for ($i = 1; $i <= 12; $i++) {
             // Looping dari angka 1-12 karena setiap tahun ada 12 bulan dan menghitung kolom amount
             // berdasarkan bulannya.
             $cashTransactions = $this->model
-                ->select('is_paid', 'amount', 'date')
-                ->whereMonth('date', "{$i}")
-                ->whereYear('date', date('Y'))
+                ->select('amount', 'paid_on')
+                ->whereMonth('paid_on', "{$i}")
+                ->whereYear('paid_on', date('Y'))
                 ->sum('amount');
 
             $results[$months[$i - 1]] = $cashTransactions;
@@ -36,7 +33,7 @@ class DashboardChartRepository extends Controller implements ChartInterface
 
         /**
          * Output yang akan dihasilkan seperti dibawah ini
-         * 
+         *
          * $results = [
          *  'jan' => 10000,
          *  'feb' => 10000,

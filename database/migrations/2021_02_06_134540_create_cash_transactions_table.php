@@ -14,13 +14,14 @@ class CreateCashTransactionsTable extends Migration
     public function up()
     {
         Schema::create('cash_transactions', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
+            $table->string('transaction_code');
             $table->foreignId('user_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignId('student_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();;
-            $table->bigInteger('bill');
+            $table->foreignId('student_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->bigInteger('amount');
-            $table->date('date');
-            $table->text('note')->nullable();
+            $table->date('paid_on');
+            $table->enum('is_paid', ['PENDING','APPROVED','REJECTED'])->default('PENDING');
+            $table->text('note');
             $table->timestamps();
         });
     }

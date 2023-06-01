@@ -10,14 +10,14 @@ use Illuminate\Database\Eloquent\Builder;
 
 class CashTransactionRepository extends Controller implements CashTransactionInterface
 {
-    private $model, $students, $startOfWeek, $endOfWeek;
+    private $model, $students, $startOfQuarter, $endOfQuarter;
 
     public function __construct(CashTransaction $model, Student $students)
     {
         $this->model = $model;
         $this->students = $students;
-        $this->startOfWeek = now()->startOfWeek()->format('Y-m-d');
-        $this->endOfWeek = now()->endOfWeek()->format('Y-m-d');
+        $this->startOfQuarter = now()->startOfQuarter()->format('Y-m-d');
+        $this->endOfQuarter = now()->endOfQuarter()->format('Y-m-d');
     }
 
     /**
@@ -58,11 +58,11 @@ class CashTransactionRepository extends Controller implements CashTransactionInt
      */
     public function sumAmountBy(string $status, string $year = null, string $month = null): Int
     {
-        $model = $this->model->select('date', 'amount');
+        $model = $this->model->select('paid_on', 'amount');
 
         return $status === 'year'
-            ? $model->whereYear('date', $year)->sum('amount')
-            : $model->whereYear('date', date('Y'))->whereMonth('date', $month)->sum('amount');
+            ? $model->whereYear('paid_on', $year)->sum('amount')
+            : $model->whereYear('paid_on', date('Y'))->whereMonth('paid_on', $month)->sum('amount');
     }
 
     /**
@@ -74,8 +74,8 @@ class CashTransactionRepository extends Controller implements CashTransactionInt
     {
         $students = $this->students->select('id');
 
-        $callback = fn (Builder $query) => $query->select(['date'])
-            ->whereBetween('date', [$this->startOfWeek, $this->endOfWeek]);
+        $callback = fn (Builder $query) => $query->select(['paid_on'])
+            ->whereBetween('paid_on', [$this->startOfQuarter, $this->endOfQuarter]);
 
         return $students->whereHas('cash_transactions', $callback)->count();
     }
@@ -89,8 +89,8 @@ class CashTransactionRepository extends Controller implements CashTransactionInt
     {
         $students = $this->students->select('id');
 
-        $callback = fn (Builder $query) => $query->select(['date'])
-            ->whereBetween('date', [$this->startOfWeek, $this->endOfWeek]);
+        $callback = fn (Builder $query) => $query->select(['paid_on'])
+            ->whereBetween('paid_on', [$this->startOfQuarter, $this->endOfQuarter]);
 
         return $students->whereDoesntHave('cash_transactions', $callback)->count();
     }
@@ -109,8 +109,8 @@ class CashTransactionRepository extends Controller implements CashTransactionInt
     {
         $students = $this->students->select(['name', 'student_identification_number'])->orderBy($order);
 
-        $callback = fn (Builder $query) => $query->select(['date'])
-            ->whereBetween('date', [$this->startOfWeek, $this->endOfWeek]);
+        $callback = fn (Builder $query) => $query->select(['paid_on'])
+            ->whereBetween('paid_on', [$this->startOfQuarter, $this->endOfQuarter]);
 
         return is_null($limit)
             ? $students->whereDoesntHave('cash_transactions', $callback)->get()

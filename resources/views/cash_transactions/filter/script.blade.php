@@ -25,10 +25,12 @@
                         destroy: true,
                         columns: [
                             { data: 'DT_RowIndex', name: 'DT_RowIndex' },
+                            { data: 'transaction_code', name: 'transaction_code' },
                             { data: 'students.name', name: 'students.name' },
-                            { data: 'bill', name: 'bill' },
                             { data: 'amount', name: 'amount' },
-                            { data: 'date', name: 'date' },
+                            { data: 'paid_on', name: 'paid_on' },
+                            { data: 'is_paid', name: 'is_paid' },
+                            { data: 'note', name: 'note' },
                             { data: 'users.name', name: 'users.name' },
                         ]
                     });

@@ -25,7 +25,7 @@ class DashboardController extends Controller
         $amountThisMonth = indonesianCurrency($this->cashTransactionRepository->sumAmountBy('month', month: date('m')));
 
         $latestCashTransactions = $this->cashTransactionRepository
-            ->cashTransactionLatest(['id', 'student_id', 'user_id', 'bill', 'amount', 'date'], 5);
+            ->cashTransactionLatest(['id', 'transaction_code', 'student_id', 'user_id', 'amount', 'paid_on', 'is_paid', 'note'], 5);
 
         return view('dashboard.index', [
             'studentCount' => Student::count(),

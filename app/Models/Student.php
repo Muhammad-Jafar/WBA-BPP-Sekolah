@@ -59,6 +59,16 @@ class Student extends Authenticatable implements JWTSubject
     }
 
     /**
+     * Get student transaction relationship
+     *
+     * @return BelongsTo
+     */
+    public function billings(): HasMany
+    {
+        return $this->hasMany(Bill::class);
+    }
+
+    /**
      * Get student gender name.
      *
      * @return string

@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Models\CashTransaction;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 class CashTransactionFactory extends Factory
 {
@@ -23,12 +24,14 @@ class CashTransactionFactory extends Factory
     public function definition()
     {
         return [
+            'id' => Str::uuid(),
+            'transaction_code' => 'TRANS-'.Str::random(6),
             'user_id' => 1,
             'student_id' => mt_rand(1, 2),
-            'bill' => 10000,
-            'amount' => 10000,
-            'date' => Carbon::createFromDate(date('Y'), mt_rand(1, 12), mt_rand(1, 31)),
-            'note' => mt_rand(0, 1) ? $this->faker->text(20) : ''
+            'amount' => 70000,
+            'paid_on' => Carbon::createFromDate(date('Y'), mt_rand(1, 12), mt_rand(1, 31)),
+            'is_paid' => 'PENDING',
+            'note' => mt_rand(0, 1) ? $this->faker->text(20) : '',
         ];
     }
 }

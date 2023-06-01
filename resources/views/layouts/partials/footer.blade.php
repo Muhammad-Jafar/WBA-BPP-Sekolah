@@ -1,11 +1,10 @@
 <footer>
 	<div class="footer clearfix mb-0 text-muted">
 		<div class="float-start">
-			<p>{{ date('Y') }} &copy; Mazer</p>
+			<p>{{ date('Y') }} &copy; SMAN 1 ALAS</p>
 		</div>
 		<div class="float-end">
-			<p>Crafted with <span class="text-danger"><i class="bi bi-heart"></i></span> by <a href="http://ahmadsaugi.com">A.
-					Saugi</a></p>
+			<p>Crafted with <span class="text-danger"><i class="bi bi-heart"></i></span> by Inisialku</p>
 		</div>
 	</div>
 </footer>
@@ -14,8 +13,7 @@
 
 @stack('modal')
 
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"
-	integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
 <script src="{{ asset('vendors/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
 <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
 

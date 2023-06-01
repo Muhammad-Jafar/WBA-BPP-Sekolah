@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             AdministratorSeeder::class,
             StudentSeeder::class,
             CashTransactionSeeder::class,
+            BillSeeder::class,
         ]);
     }
 }

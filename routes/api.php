@@ -9,6 +9,7 @@ use App\Http\Controllers\API\v1\DashboardChartController;
 use App\Http\Controllers\API\v1\LoginController;
 use App\Http\Controllers\API\v1\LogoutController;
 use App\Http\Controllers\API\v1\StudentController;
+use App\Http\Controllers\API\v1\BillController;
 
 Route::name('api.')->prefix('v1')->group(function () {
     Route::post('/login', [LoginController::class, 'loginAdmin'])->name('login');
@@ -25,6 +26,8 @@ Route::name('api.')->prefix('v1')->group(function () {
 
             Route::get('/cash-transaction/{id}', [CashTransactionController::class, 'show'])->name('cash-transaction.show');
             Route::get('/cash-transaction/{id}/edit', [CashTransactionController::class, 'edit'])->name('cash-transaction.edit');
+
+            Route::get('/billings/{id}', [BillController::class, 'show'])->name('billings.show');
 
             Route::get('/chart', DashboardChartController::class)->name('chart');
         });

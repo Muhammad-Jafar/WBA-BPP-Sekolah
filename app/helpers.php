@@ -9,6 +9,6 @@ if (!function_exists('indonesianCurrency')) {
      */
     function indonesianCurrency(int $number): String
     {
-        return 'Rp' . number_format((int) $number, 0, ',',);
+        return 'Rp. ' . number_format((int) $number, 0, ',',);
     }
 }

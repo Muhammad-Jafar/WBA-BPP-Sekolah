@@ -1,4 +1,4 @@
-@extends('layouts.main', ['title' => 'Kas', 'page_heading' => 'Data Kas'])
+@extends('layouts.main', ['title' => 'Transaksi', 'page_heading' => 'Data Transaksi'])
 
 @section('content')
 <section class="row">
@@ -50,7 +50,7 @@
 						</div>
 					</div>
 					<div class="col-md-8">
-						<h6 class="text-muted font-semibold">Sudah Membayar Minggu Ini</h6>
+						<h6 class="text-muted font-semibold">Sudah Membayar dalam 3 bulan Ini</h6>
 						<h6 class="font-extrabold mb-0">
 							{{ $data['studentCountWho']['paidThisWeek'] }}</h6>
 					</div>
@@ -69,7 +69,7 @@
 						</div>
 					</div>
 					<div class="col-md-8">
-						<h6 class="text-muted font-semibold">Belum Membayar Minggu Ini</h6>
+						<h6 class="text-muted font-semibold">Belum Membayar dalam 3 bulan Ini</h6>
 						<h6 class="font-extrabold mb-0">
 							{{ $data['studentCountWho']['notPaidThisWeek'] }}</h6>
 					</div>
@@ -81,14 +81,13 @@
 	<div class="col-12 col-lg-12 col-md-12">
 		<div class="card">
 			<div class="card-header">
-				<h4>Belum Membayar Minggu Ini </h4>
+				<h4>Belum Membayar untuk 3 bulan terakhir Ini </h4>
 			</div>
 			@if($data['studentCountWho']['notPaidThisWeek'] > 0)
 			<div class="px-4">
 				<button type="button" class='btn btn-block btn-xl btn-light-danger font-bold mt-3'
 					data-bs-toggle="modal" data-bs-target="#lookMoreModal">Ada
-					<b>{{ $data['studentCountWho']['notPaidThisWeek'] }}</b> orang belum membayar pada minggu
-					ini! <i class="bi bi-exclamation-triangle"></i></button>
+					<b>{{ $data['studentCountWho']['notPaidThisWeek'] }}</b> orang yang belum membayar! <i class="bi bi-exclamation-triangle"></i></button>
 			</div>
 
 			<span class="badge w-100 rounded-pill bg-warning mb-3"></span>
@@ -130,13 +129,6 @@
 					<i class="bi bi-file-earmark-excel-fill"></i>
 					Export Excel
 				</a>
-				<a href="{{ route('cash-transactions.index.history') }}" class="btn btn-secondary">
-					<span class="badge">{{ $cashTransactionTrashedCount }}</span> Histori Data Kas
-				</a>
-				<button type="button" class="btn btn-primary" data-bs-toggle="modal"
-					data-bs-target="#addCashTransactionModal">
-					<i class="bi bi-plus-circle"></i> Tambah Data
-				</button>
 			</div>
 		</div>
 
@@ -145,11 +137,11 @@
 				<thead>
 					<tr>
 						<th scope="col">#</th>
+						<th scope="col">Kode Transaksi</th>
 						<th scope="col">Nama Pelajar</th>
-						<th scope="col">Tagihan</th>
 						<th scope="col">Total Bayar</th>
 						<th scope="col">Tanggal</th>
-						<th scope="col">Aksi</th>
+						<th scope="col">Status</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -161,9 +153,6 @@
 @endsection
 
 @push('modal')
-@include('cash_transactions.modal.create')
-@include('cash_transactions.modal.show')
-@include('cash_transactions.modal.edit')
 
 @include('cash_transactions.modal.look-more' )
 @endpush

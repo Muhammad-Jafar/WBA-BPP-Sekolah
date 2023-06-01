@@ -21,13 +21,12 @@ class CashTransactionFilterController extends Controller
 
         if (request()->ajax()) {
             return datatables()->of(CashTransaction::with('students:id,name', 'users:id,name')
-                ->whereBetween('date', [$start_date, $end_date])->get())
+                ->whereBetween('paid_on', [$start_date, $end_date])->get())
                 ->addIndexColumn()
-                ->addColumn('bill', fn ($model) => indonesianCurrency($model->bill))
                 ->addColumn('amount', fn ($model) => indonesianCurrency($model->amount))
-                ->addColumn('date', fn ($model) => date('d-m-Y', strtotime($model->date)))
-                ->addColumn('status', 'cash_transactions.datatable.status')
-                ->rawColumns(['status'])
+                ->addColumn('paid_on', fn ($model) => date('d-m-Y', strtotime($model->date)))
+                ->addColumn('is_paid', 'cash_transactions.datatable.status')
+                ->rawColumns(['is_paid'])
                 ->toJson();
         }
 

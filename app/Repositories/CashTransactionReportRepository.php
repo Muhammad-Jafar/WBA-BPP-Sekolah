@@ -27,10 +27,10 @@ class CashTransactionReportRepository extends Controller implements CashTransact
         $startDate = date('Y-m-d', strtotime($start));
         $endDate = date('Y-m-d', strtotime($end));
 
-        $cashTransactions = $this->model->select('user_id', 'student_id', 'amount', 'date')
+        $cashTransactions = $this->model->select('user_id', 'student_id', 'amount', 'paid_on')
             ->with('students:id,name', 'users:id,name')
-            ->whereBetween('date', [$startDate, $endDate])
-            ->orderBy('date')->get();
+            ->whereBetween('paid_on', [$startDate, $endDate])
+            ->orderBy('paid_on')->get();
 
         $filteredResult['cashTransactions'] = $cashTransactions;
         $filteredResult['sumOfAmount'] = $cashTransactions->sum('amount');
@@ -57,14 +57,14 @@ class CashTransactionReportRepository extends Controller implements CashTransact
     public function sum(string $column, string $type): Int
     {
         $model = $this->model
-            ->select('date', 'amount')
-            ->whereYear('date', date('Y'));
+            ->select('paid_on', 'amount')
+            ->whereYear('paid_on', date('Y'));
 
         match ($type) {
-            'thisDay' => $model->whereDay('date', date('d')),
-            'thisWeek' => $model->whereBetween('date', [now()->startOfWeek(), now()->endOfWeek()]),
-            'thisMonth' => $model->whereMonth('date', date('m')),
-            'thisYear' => $model->whereYear('date', date('Y'))
+            'thisDay' => $model->whereDay('paid_on', date('d')),
+            'thisWeek' => $model->whereBetween('paid_on', [now()->startOfWeek(), now()->endOfWeek()]),
+            'thisMonth' => $model->whereMonth('paid_on', date('m')),
+            'thisYear' => $model->whereYear('paid_on', date('Y'))
         };
 
         return $model->sum($column);

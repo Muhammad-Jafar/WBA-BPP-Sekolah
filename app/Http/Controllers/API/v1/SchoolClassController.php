@@ -10,8 +10,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class SchoolClassController extends Controller
 {
-
-
     public function edit(int $id): JsonResponse
     {
         $school_class = new SchoolClassEditResource(SchoolClass::findOrFail($id));

@@ -43,16 +43,23 @@
 		<li class="sidebar-item has-sub {{ request()->routeIs('cash-transactions.*') ? 'active' : '' }}">
 			<a href="#" class='sidebar-link'>
 				<i class="bi bi-cash-stack"></i>
-				<span>Kas</span>
+				<span>Transaksi</span>
 			</a>
 			<ul class="submenu {{ request()->routeIs('cash-transactions.*') ? 'active' : '' }}">
 				<li class="submenu-item {{ request()->routeIs('cash-transactions.index') ? 'active' : '' }}">
-					<a href="{{ route('cash-transactions.index') }}">Kas Minggu Ini</a>
+					<a href="{{ route('cash-transactions.index') }}">Data Transaksi</a>
 				</li>
 				<li class="submenu-item {{ request()->routeIs('cash-transactions.filter') ? 'active' : '' }}">
-					<a href="{{ route('cash-transactions.filter') }}">Filter Kas</a>
+					<a href="{{ route('cash-transactions.filter') }}">Filter Transaksi</a>
 				</li>
 			</ul>
+		</li>
+
+		<li class="sidebar-item {{ request()->is('billings*') ? 'active' : '' }}">
+			<a href="{{ route('billings.index') }}" class='sidebar-link'>
+				<i class="bi bi-file-earmark-spreadsheet-fill"></i>
+				<span>Tagihan</span>
+			</a>
 		</li>
 
 		<li class="sidebar-item {{ request()->is('report*') ? 'active' : '' }}">

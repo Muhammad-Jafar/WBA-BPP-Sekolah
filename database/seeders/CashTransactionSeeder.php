@@ -14,6 +14,6 @@ class CashTransactionSeeder extends Seeder
      */
     public function run()
     {
-        CashTransaction::factory(20)->create();
+        CashTransaction::factory(6)->create();
     }
 }

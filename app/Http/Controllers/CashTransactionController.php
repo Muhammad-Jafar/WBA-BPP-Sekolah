@@ -32,26 +32,25 @@ class CashTransactionController extends Controller
     public function index(): View|JsonResponse
     {
         $cashTransactions = CashTransaction::with('students:id,name')
-            ->select('id', 'student_id', 'bill', 'amount', 'date')
-            ->whereBetween('date', [$this->startOfWeek, $this->endOfWeek])
-            ->latest()
+            ->select('id', 'transaction_code', 'student_id', 'amount', 'paid_on', 'is_paid', 'note')
+            // ->whereBetween('paid_on', [$this->startOfWeek, $this->endOfWeek])
+            // ->latest()
             ->get();
 
         $students = Student::select('id', 'student_identification_number', 'name')
             ->whereDoesntHave(
                 'cash_transactions',
-                fn (Builder $query) => $query->select(['date'])
-                    ->whereBetween('date', [$this->startOfWeek, $this->endOfWeek])
+                fn (Builder $query) => $query->select(['paid_on'])
+                    ->whereBetween('paid_on', [$this->startOfWeek, $this->endOfWeek])
             )->get();
 
         if (request()->ajax()) {
             return datatables()->of($cashTransactions)
                 ->addIndexColumn()
-                ->addColumn('bill', fn ($model) => indonesianCurrency($model->bill))
                 ->addColumn('amount', fn ($model) => indonesianCurrency($model->amount))
-                ->addColumn('date', fn ($model) => date('d-m-Y', strtotime($model->date)))
-                ->addColumn('action', 'cash_transactions.datatable.action')
-                ->rawColumns(['action'])
+                ->addColumn('paid_on', fn ($model) => date('d-m-Y', strtotime($model->date)))
+                ->addColumn('is_paid', 'cash_transactions.datatable.status')
+                ->rawColumns(['is_paid'])
                 ->toJson();
         }
 
@@ -64,51 +63,51 @@ class CashTransactionController extends Controller
         ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\CashTransactionStoreRequest  $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function store(CashTransactionStoreRequest $request): RedirectResponse
-    {
-        foreach ($request->student_id as $student_id) {
-            Auth::user()->cash_transactions()->create([
-                'student_id' => $student_id,
-                'bill' => $request->bill,
-                'amount' => $request->amount,
-                'date' => $request->date,
-                'note' => $request->note
-            ]);
-        }
+    // /**
+    //  * Store a newly created resource in storage.
+    //  *
+    //  * @param  \Illuminate\Http\CashTransactionStoreRequest  $request
+    //  * @return \Illuminate\Http\RedirectResponse
+    //  */
+    // public function store(CashTransactionStoreRequest $request): RedirectResponse
+    // {
+    //     foreach ($request->student_id as $student_id) {
+    //         Auth::user()->cash_transactions()->create([
+    //             'student_id' => $student_id,
+    //             'bill' => $request->bill,
+    //             'amount' => $request->amount,
+    //             'date' => $request->date,
+    //             'note' => $request->note
+    //         ]);
+    //     }
 
-        return redirect()->route('cash-transactions.index')->with('success', 'Data berhasil ditambahkan!');
-    }
+    //     return redirect()->route('cash-transactions.index')->with('success', 'Data berhasil ditambahkan!');
+    // }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\CashTransactionUpdateRequest  $request
-     * @param  \App\Models\CashTransaction  $cashTransaction
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function update(CashTransactionUpdateRequest $request, CashTransaction $cashTransaction): RedirectResponse
-    {
-        $cashTransaction->update($request->validated());
+    // /**
+    //  * Update the specified resource in storage.
+    //  *
+    //  * @param  \Illuminate\Http\CashTransactionUpdateRequest  $request
+    //  * @param  \App\Models\CashTransaction  $cashTransaction
+    //  * @return \Illuminate\Http\RedirectResponse
+    //  */
+    // public function update(CashTransactionUpdateRequest $request, CashTransaction $cashTransaction): RedirectResponse
+    // {
+    //     $cashTransaction->update($request->validated());
 
-        return redirect()->route('cash-transactions.index')->with('success', 'Data berhasil diubah!');
-    }
+    //     return redirect()->route('cash-transactions.index')->with('success', 'Data berhasil diubah!');
+    // }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\CashTransaction  $cashTransaction
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function destroy(CashTransaction $cashTransaction): RedirectResponse
-    {
-        $cashTransaction->delete();
+    // /**
+    //  * Remove the specified resource from storage.
+    //  *
+    //  * @param  \App\Models\CashTransaction  $cashTransaction
+    //  * @return \Illuminate\Http\RedirectResponse
+    //  */
+    // public function destroy(CashTransaction $cashTransaction): RedirectResponse
+    // {
+    //     $cashTransaction->delete();
 
-        return redirect()->route('cash-transactions.index')->with('success', 'Data berhasil dihapus!');
-    }
+    //     return redirect()->route('cash-transactions.index')->with('success', 'Data berhasil dihapus!');
+    // }
 }
