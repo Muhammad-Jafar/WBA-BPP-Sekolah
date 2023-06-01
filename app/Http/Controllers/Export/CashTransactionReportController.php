@@ -20,7 +20,7 @@ class CashTransactionReportController extends Controller implements ExcelExportI
         $sheet = $this->setExcelHeader($spreadsheet);
 
         $cash_transaction_results = CashTransaction::with('students', 'users')
-            ->whereBetween('date', [date('Y-m-d', strtotime($start_date)), date('Y-m-d', strtotime($end_date))])
+            ->whereBetween('paid_on', [date('Y-m-d', strtotime($start_date)), date('Y-m-d', strtotime($end_date))])
             ->orderBy('student_id')
             ->get();
 

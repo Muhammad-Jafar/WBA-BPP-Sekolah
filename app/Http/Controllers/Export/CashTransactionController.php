@@ -20,8 +20,8 @@ class CashTransactionController extends Controller implements ExcelExportInterfa
         $sheet = $this->setExcelHeader($spreadsheet);
 
         $cash_transactions = CashTransaction::with('students:id,name')
-            ->select('id', 'student_id', 'bill', 'amount', 'date')
-            ->whereBetween('date', [now()->startOfWeek()->format('Y-m-d'), now()->endOfWeek()->format('Y-m-d')])
+            ->select('id', 'student_id', 'amount', 'paid_on', 'is_paid')
+            ->whereBetween('paid_on', [now()->startOfWeek()->format('Y-m-d'), now()->endOfWeek()->format('Y-m-d')])
             ->latest()
             ->get();
 
@@ -41,9 +41,9 @@ class CashTransactionController extends Controller implements ExcelExportInterfa
         $sheet = $spreadsheet->getActiveSheet();
         $sheet->setCellValue('A1', 'No');
         $sheet->setCellValue('B1', 'Nama Pelajar');
-        $sheet->setCellValue('C1', 'Tagihan');
-        $sheet->setCellValue('D1', 'Total Bayar');
-        $sheet->setCellValue('E1', 'Tanggal');
+        $sheet->setCellValue('C1', 'Total Bayar');
+        $sheet->setCellValue('D1', 'Tanggal');
+        $sheet->setCellValue('E1', 'Status');
 
         foreach (range('A', 'E') as $paragraph) {
             $sheet->getColumnDimension($paragraph)->setAutoSize(true);
@@ -65,9 +65,9 @@ class CashTransactionController extends Controller implements ExcelExportInterfa
         foreach ($cash_transactions as $key => $row) {
             $sheet->setCellValue('A' . $cell, $key + 1);
             $sheet->setCellValue('B' . $cell, $row->students->name);
-            $sheet->setCellValue('C' . $cell, $row->bill);
-            $sheet->setCellValue('D' . $cell, $row->amount);
-            $sheet->setCellValue('E' . $cell, date('d-m-Y', strtotime($row->date)));
+            $sheet->setCellValue('C' . $cell, $row->amount);
+            $sheet->setCellValue('D' . $cell, date('d-m-Y', strtotime($row->date)));
+            $sheet->setCellValue('E' . $cell, $row->is_paid);
             $sheet->getStyle('A1:E' . $cell)->applyFromArray(ExportRepository::setStyle());
             $cell++;
         }
