@@ -74,14 +74,13 @@ class CashTransactionController extends Controller
     //     foreach ($request->student_id as $student_id) {
     //         Auth::user()->cash_transactions()->create([
     //             'student_id' => $student_id,
-    //             'bill' => $request->bill,
     //             'amount' => $request->amount,
-    //             'date' => $request->date,
+    //             'paid_on' => $request->paid_on,
     //             'note' => $request->note
     //         ]);
     //     }
 
-    //     return redirect()->route('cash-transactions.index')->with('success', 'Data berhasil ditambahkan!');
+        // return redirect()->route('cash-transactions.index')->with('success', 'Data berhasil ditambahkan!');
     // }
 
     // /**

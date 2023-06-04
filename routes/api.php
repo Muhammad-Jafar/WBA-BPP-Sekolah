@@ -24,6 +24,7 @@ Route::name('api.')->prefix('v1')->group(function () {
             Route::get('/student/{id}', [StudentController::class, 'show'])->name('student.show');
             Route::get('/student/{id}/edit', [StudentController::class, 'edit'])->name('student.edit');
 
+            Route::post('/transaction/pay', [CashTransactionController::class, 'pay'])->name('cash-transaction.pay'); // make request for midtrans
             Route::get('/cash-transaction/{id}', [CashTransactionController::class, 'show'])->name('cash-transaction.show');
             Route::get('/cash-transaction/{id}/edit', [CashTransactionController::class, 'edit'])->name('cash-transaction.edit');
 
