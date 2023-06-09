@@ -3,7 +3,7 @@
 	<div class="modal-dialog modal-lg">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h5 class="modal-title">Detail Pelajar</h5>
+				<h5 class="modal-title">Detail Siswa</h5>
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
@@ -11,7 +11,7 @@
 				<div class="row">
 					<div class="col-sm-12 col-md-12 col-lg-4">
 						<div class="mb-3">
-							<label for="student_identification_number" class="form-label">NIS/NISN/NIM</label>
+							<label for="student_identification_number" class="form-label">NIS</label>
 							<input type="text" class="form-control" id="student_identification_number" disabled>
 						</div>
 					</div>

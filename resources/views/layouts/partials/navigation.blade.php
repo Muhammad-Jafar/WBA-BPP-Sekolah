@@ -10,7 +10,7 @@
 </div>
 <div class="sidebar-menu">
 	<ul class="menu">
-		<li class="sidebar-title">Menu</li>
+		<li class="sidebar-title">Menu - {{ auth()->user()->name }}</li>
 
 		<li class="sidebar-item {{ request()->is('dashboard*') ? 'active' : '' }}">
 			<a href="{{ route('dashboard') }}" class='sidebar-link'>
@@ -22,7 +22,7 @@
 		<li class="sidebar-item {{ request()->routeIs('students.*') ? 'active' : '' }}">
 			<a href="{{ route('students.index') }}" class='sidebar-link'>
 				<i class="bi bi-people-fill"></i>
-				<span>Pelajar</span>
+				<span>Siswa</span>
 			</a>
 		</li>
 

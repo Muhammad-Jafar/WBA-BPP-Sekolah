@@ -138,9 +138,10 @@
 					<tr>
 						<th scope="col">#</th>
 						<th scope="col">Kode Transaksi</th>
-						<th scope="col">Nama Pelajar</th>
+						<th scope="col">Nama Siswa</th>
 						<th scope="col">Total Bayar</th>
 						<th scope="col">Tanggal</th>
+						<th scope="col">Catatan</th>
 						<th scope="col">Status</th>
 					</tr>
 				</thead>
@@ -153,7 +154,6 @@
 @endsection
 
 @push('modal')
-
 @include('cash_transactions.modal.look-more' )
 @endpush
 

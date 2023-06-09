@@ -24,10 +24,10 @@ class TransactionStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'student_id' => ['required'],
-            'amount' => ['required', 'integer', 'digits_between:3,191'],
-            'paid_on' => ['required', 'date'],
-            'note' => ['max:191']
+            'bill_id' => 'required',
+            'student_id' => 'required',
+            'amount' => 'required|numeric|digits_between:3,191',
+            'note' => 'max:191'
         ];
     }
 
@@ -39,16 +39,15 @@ class TransactionStoreRequest extends FormRequest
     public function messages()
     {
         return [
-            'student_id.required' => 'Kolom nama pelajar wajib diisi!',
+            'student_id.required' => 'Kolom id pelajar wajib diisi!',
+
+            'bill_id.required' => 'Kolom id tagihan wajib diisi!',
 
             'amount.required' => 'Kolom total bayar wajib diisi!',
-            'amount.integer' => 'Kolom total bayar harus angka!',
-            'amount.digits_betweeen' => 'Kolom total bayar harus diantara 3 sampai dengan 191 karakter!',
+            'amount.numeric' => 'Kolom total bayar harus angka!',
+            'amount.digits_between' => 'Kolom total bayar maksimal 191 karakter!',
 
-            'paid_on.required' => 'Kolom tanggal wajib diisi!',
-            'paid_on.date' => 'Kolom tanggal harus tanggal yang benar!',
-
-            'note.max' => 'Kolom catatan maksimal 191 karakter!'
+            'note.max' => 'Kolom keterangan maksimal 191 karakter!'
         ];
     }
 }

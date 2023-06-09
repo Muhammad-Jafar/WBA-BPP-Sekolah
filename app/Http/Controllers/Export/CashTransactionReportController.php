@@ -39,7 +39,7 @@ class CashTransactionReportController extends Controller implements ExcelExportI
     {
         $sheet = $spreadsheet->getActiveSheet();
         $sheet->setCellValue('A1', 'No');
-        $sheet->setCellValue('B1', 'Nama Pelajar');
+        $sheet->setCellValue('B1', 'Nama Siswa');
         $sheet->setCellValue('C1', 'Tanggal');
         $sheet->setCellValue('D1', 'Nominal Bayar');
         $sheet->setCellValue('E1', 'Pencatat');
@@ -66,7 +66,7 @@ class CashTransactionReportController extends Controller implements ExcelExportI
         foreach ($cash_transaction_results as $key => $row) {
             $sheet->setCellValue('A' . $cell, $key + 1);
             $sheet->setCellValue('B' . $cell, $row->students->name);
-            $sheet->setCellValue('C' . $cell, date('d-m-Y', strtotime($row->date)));
+            $sheet->setCellValue('C' . $cell, date('d-m-Y', $row->date));
             $sheet->setCellValue('D' . $cell, $row->amount);
             $sheet->setCellValue('E' . $cell, $row->users->name);
             $sheet->getStyle('A1:E' . $cell)->applyFromArray($style);

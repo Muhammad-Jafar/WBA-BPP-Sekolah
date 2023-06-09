@@ -26,6 +26,7 @@ class CashTransactionFactory extends Factory
         return [
             'id' => Str::uuid(),
             'transaction_code' => 'TRANS-'.Str::random(6),
+            'bill_id' => mt_rand(1, 2),
             'user_id' => 1,
             'student_id' => mt_rand(1, 2),
             'amount' => 70000,

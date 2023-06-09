@@ -8,10 +8,7 @@ use Illuminate\View\View;
 
 class CashTransactionReportController extends Controller
 {
-    public function __construct(
-        private  CashTransactionReportRepository $cashTransactionReportRepository
-    ) {
-    }
+    public function __construct(private  CashTransactionReportRepository $cashTransactionReportRepository) {}
 
     /**
      * Handle the incoming request.

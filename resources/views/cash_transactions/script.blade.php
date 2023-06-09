@@ -12,6 +12,7 @@
 				{ data: 'students.name', name: 'students.name' },
 				{ data: 'amount', name: 'amount' },
 				{ data: 'paid_on', name: 'paid_on' },
+				{ data: 'note', name: 'note' },
 				{ data: 'is_paid', name: 'is_paid' },
 			]
 		});

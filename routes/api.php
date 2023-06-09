@@ -10,6 +10,7 @@ use App\Http\Controllers\API\v1\LoginController;
 use App\Http\Controllers\API\v1\LogoutController;
 use App\Http\Controllers\API\v1\StudentController;
 use App\Http\Controllers\API\v1\BillController;
+use App\Http\Controllers\API\v1\HandlePaymentNotifController;
 
 Route::name('api.')->prefix('v1')->group(function () {
     Route::post('/login', [LoginController::class, 'loginAdmin'])->name('login');
@@ -24,11 +25,13 @@ Route::name('api.')->prefix('v1')->group(function () {
             Route::get('/student/{id}', [StudentController::class, 'show'])->name('student.show');
             Route::get('/student/{id}/edit', [StudentController::class, 'edit'])->name('student.edit');
 
-            Route::post('/transaction/pay', [CashTransactionController::class, 'pay'])->name('cash-transaction.pay'); // make request for midtrans
             Route::get('/cash-transaction/{id}', [CashTransactionController::class, 'show'])->name('cash-transaction.show');
             Route::get('/cash-transaction/{id}/edit', [CashTransactionController::class, 'edit'])->name('cash-transaction.edit');
 
             Route::get('/billings/{id}', [BillController::class, 'show'])->name('billings.show');
+
+            Route::post('/transaction/pay', [CashTransactionController::class, 'pay'])->name('cash-transaction.pay'); // make request for midtrans
+            Route::post('/transaction/status', [HandlePaymentNotifController::class])->name('cash-transaction.status'); // Check status of transaction
 
             Route::get('/chart', DashboardChartController::class)->name('chart');
         });

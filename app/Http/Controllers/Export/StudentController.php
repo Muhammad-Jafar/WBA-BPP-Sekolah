@@ -36,7 +36,7 @@ class StudentController extends Controller implements ExcelExportInterface
     {
         $sheet = $spreadsheet->getActiveSheet();
         $sheet->setCellValue('A1', 'No');
-        $sheet->setCellValue('B1', 'NIS/NISN');
+        $sheet->setCellValue('B1', 'NIS');
         $sheet->setCellValue('C1', 'Nama Lengkap');
         $sheet->setCellValue('D1', 'Jenis Kelamin');
         $sheet->setCellValue('E1', 'Kelas');

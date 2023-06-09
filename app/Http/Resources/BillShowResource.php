@@ -15,9 +15,9 @@ class BillShowResource extends JsonResource
     public function toArray($request): array
     {
         return [
+            'id' => $this->id,
             'billings' => $this->billings,
             'recent_bill' => $this->recent_bill,
-            'status' => $this->status,
         ];
     }
 }

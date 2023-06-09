@@ -15,7 +15,7 @@
 									</div>
 								</div>
 								<div class="col-md-8">
-									<h6 class="text-muted font-semibold">Pelajar</h6>
+									<h6 class="text-muted font-semibold">Siswa</h6>
 									<h6 class="font-extrabold {{ $studentCount <= 0 ? 'text-danger' : '' }} mb-0">
 										{{ $studentCount }}
 									</h6>
@@ -101,7 +101,7 @@
 									<tr>
 										<th>Daftar</th>
 										<th>Kode transaksi</th>
-										<th>Nama Pelajar</th>
+										<th>Nama Siswa</th>
 										<th>Jumlah Bayar</th>
 										<th>Tanggal</th>
 										<th>Pencatat</th>
@@ -138,7 +138,7 @@
 										</td>
 										<td class="col-auto">
 											<p class=" mb-0">
-												{{ date('d-m-Y', strtotime($latestCashTransaction->date)) }}
+												{{ date('d M Y', $latestCashTransaction->date) }}
 											</p>
 										</td>
 										<td class="col-auto">
@@ -165,4 +165,4 @@
 </section>
 @endsection
 
-		{{-- @include('dashboard.charts.chart') --}}
+{{-- @include('dashboard.charts.chart') --}}

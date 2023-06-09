@@ -19,8 +19,8 @@ class DatabaseSeeder extends Seeder
             SchoolMajorSeeder::class,
             AdministratorSeeder::class,
             StudentSeeder::class,
-            CashTransactionSeeder::class,
             BillSeeder::class,
+            CashTransactionSeeder::class,
         ]);
     }
 }

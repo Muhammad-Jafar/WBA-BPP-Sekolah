@@ -24,7 +24,7 @@ class CashTransactionFilterController extends Controller
                 ->whereBetween('paid_on', [$start_date, $end_date])->get())
                 ->addIndexColumn()
                 ->addColumn('amount', fn ($model) => indonesianCurrency($model->amount))
-                ->addColumn('paid_on', fn ($model) => date('d-m-Y', strtotime($model->date)))
+                ->addColumn('paid_on', fn ($model) => date('d M Y', $model->date))
                 ->addColumn('is_paid', 'cash_transactions.datatable.status')
                 ->rawColumns(['is_paid'])
                 ->toJson();

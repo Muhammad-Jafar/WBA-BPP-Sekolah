@@ -10,10 +10,7 @@ use Illuminate\View\View;
 
 class DashboardController extends Controller
 {
-    public function __construct(
-        private CashTransactionRepository $cashTransactionRepository,
-    ) {
-    }
+    public function __construct(private CashTransactionRepository $cashTransactionRepository) {}
 
     /**
      * Handle the incoming request.

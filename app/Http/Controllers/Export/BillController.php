@@ -38,10 +38,10 @@ class BillController extends Controller implements ExcelExportInterface
     {
         $sheet = $spreadsheet->getActiveSheet();
         $sheet->setCellValue('A1', 'No');
-        $sheet->setCellValue('B1', 'Nama Pelajar');
+        $sheet->setCellValue('B1', 'Nama Siswa');
         $sheet->setCellValue('C1', 'Total Tagihan');
         $sheet->setCellValue('D1', 'Total Bayar');
-        $sheet->setCellValue('E1', 'STATUS PEMBAYARAN');
+        $sheet->setCellValue('E1', 'Status Pembayaran');
 
         foreach (range('A', 'E') as $paragraph) {
             $sheet->getColumnDimension($paragraph)->setAutoSize(true);

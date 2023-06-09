@@ -8,10 +8,8 @@ use App\Models\CashTransaction;
 
 class CashTransactionReportRepository extends Controller implements CashTransactionReportInterface
 {
-    public function __construct(
-        private CashTransaction $model
-    ) {
-    }
+    public function __construct( private CashTransaction $model
+) {}
 
     /**
      * Mendapatkan data hasil filter berdasarkan tanggal awal dan tanggal akhir.
@@ -25,7 +23,7 @@ class CashTransactionReportRepository extends Controller implements CashTransact
         $filteredResult = [];
 
         $startDate = date('Y-m-d', strtotime($start));
-        $endDate = date('Y-m-d', strtotime($end));
+        $endDate = date('Y-m-d',strtotime($end));
 
         $cashTransactions = $this->model->select('user_id', 'student_id', 'amount', 'paid_on')
             ->with('students:id,name', 'users:id,name')

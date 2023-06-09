@@ -12,15 +12,16 @@ class CashTransaction extends Model
 {
     use HasFactory, SoftDeletes;
 
-    protected $fillable = ['transaction_code', 'student_id', 'amount', 'paid_on', 'is_paid', 'note'];
+    protected $fillable = ['transaction_code', 'bill_id', 'student_id', 'amount', 'paid_on', 'is_paid', 'note'];
 
     // protected $casts = [
     //     'is_paid' => 'integer',
     // ];
 
     /**
-     * Set Incrementing
-     * 
+     * Set Incrementing to false
+     * Menonaktifkan auto increment
+     *
      * @return boolean
      */
     public function getIncrementing()
@@ -30,12 +31,23 @@ class CashTransaction extends Model
 
     /**
      * get key type to return as string
-     * 
+     * Memberi tahu laravel bahwa model ini menggunakan primary key bertipe string
+     *
      * @return string
      */
     public function getKeyType()
     {
         return 'string';
+    }
+
+    /**
+     * Get bill relation data.
+     *
+     * @return BelongsTo
+     */
+    public function bills(): BelongsTo
+    {
+        return $this->belongsTo(Bill::class, 'bill_id');
     }
 
     /**

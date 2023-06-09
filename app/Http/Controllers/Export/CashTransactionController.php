@@ -40,7 +40,7 @@ class CashTransactionController extends Controller implements ExcelExportInterfa
     {
         $sheet = $spreadsheet->getActiveSheet();
         $sheet->setCellValue('A1', 'No');
-        $sheet->setCellValue('B1', 'Nama Pelajar');
+        $sheet->setCellValue('B1', 'Nama Siswa');
         $sheet->setCellValue('C1', 'Total Bayar');
         $sheet->setCellValue('D1', 'Tanggal');
         $sheet->setCellValue('E1', 'Status');
@@ -66,7 +66,7 @@ class CashTransactionController extends Controller implements ExcelExportInterfa
             $sheet->setCellValue('A' . $cell, $key + 1);
             $sheet->setCellValue('B' . $cell, $row->students->name);
             $sheet->setCellValue('C' . $cell, $row->amount);
-            $sheet->setCellValue('D' . $cell, date('d-m-Y', strtotime($row->date)));
+            $sheet->setCellValue('D' . $cell, date('d-m-Y', $row->date));
             $sheet->setCellValue('E' . $cell, $row->is_paid);
             $sheet->getStyle('A1:E' . $cell)->applyFromArray(ExportRepository::setStyle());
             $cell++;

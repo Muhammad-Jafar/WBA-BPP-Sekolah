@@ -22,7 +22,11 @@ class JWTMiddleware
         try {
             $user = JWTAuth::parseToken()->authenticate();
             if(!$user) {
-                throw new UnauthorizedHttpException('message', 'User not found');
+                // throw new UnauthorizedHttpException('message', 'User not found');
+                return response()->json([
+                    'error' => true,
+                    'message' => 'User not found',
+                ]);
             }
         } catch (Exception $e) {
             if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenInvalidException) {

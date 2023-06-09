@@ -60,7 +60,7 @@
             <thead>
                 <th scope="col">#</th>
                 <th scope="col">NIS</th>
-                <th scope="col">Nama Pelajar</th>
+                <th scope="col">Nama Siswa</th>
                 <th scope="col">Total tagihan</th>
                 <th scope="col">total lunas</th>
                 <th scope="col">status</th>

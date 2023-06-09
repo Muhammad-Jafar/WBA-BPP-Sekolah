@@ -111,14 +111,14 @@
 			</div>
 
 			<div class="table-responsive mt-3">
-				<table class="table table-sm text-center caption-top" id="datatable">
+				<table class="table caption-top" id="datatable">
 					<caption>Laporan data dari tanggal <span class="fw-bold">{{ $filteredResult['startDate'] }}</span> -
 						<span class="fw-bold">{{ $filteredResult['endDate'] }}</span>
 					</caption>
 					<thead>
 						<tr>
 							<th scope="col">#</th>
-							<th scope="col">Nama Pelajar</th>
+							<th scope="col">Nama Siswa</th>
 							<th scope="col">Tanggal</th>
 							<th scope="col">Nominal Bayar</th>
 							<th scope="col">Pencatat</th>

@@ -19,7 +19,7 @@
 					<tr>
 						<th scope="col">#</th>
 						<th scope="col">Kode Transaksi</th>
-						<th scope="col">Nama Pelajar</th>
+						<th scope="col">Nama Siswa</th>
 						<th scope="col">Total bayar</th>
 						<th scope="col">Tanggal</th>
 						<th scope="col">status pembayaran</th>
