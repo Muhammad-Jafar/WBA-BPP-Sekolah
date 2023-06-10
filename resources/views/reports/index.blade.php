@@ -129,7 +129,7 @@
 						<tr>
 							<th>{{ $loop->iteration }}</th>
 							<td>{{ $cashTransaction->students->name }}</td>
-							<td>{{ date('d-m-Y', strtotime($cashTransaction->date)) }}</td>
+							<td>{{ date('d-m-Y', strtotime($cashTransaction->paid_on)) }}</td>
 							<td>{{ indonesianCurrency($cashTransaction->amount) }}</td>
 							<td>{{ $cashTransaction->users->name }}</td>
 						</tr>

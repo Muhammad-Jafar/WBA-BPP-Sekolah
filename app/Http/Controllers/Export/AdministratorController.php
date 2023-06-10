@@ -12,7 +12,7 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 class AdministratorController extends Controller implements ExcelExportInterface
 {
-    const FILE_NAME = 'laporan-administrator-aplikasi';
+    const FILE_NAME = 'Data admin ';
 
     public function __invoke()
     {

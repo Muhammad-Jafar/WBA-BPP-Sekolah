@@ -32,6 +32,7 @@
 			$.ajax({
 				url: url,
 				headers: {
+					'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
 					'Authorization': 'Bearer ' + localStorage.getItem('token'),
 					'Accept': 'application/json',
 					'Content-Type': 'application/json'

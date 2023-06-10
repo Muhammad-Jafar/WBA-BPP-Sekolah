@@ -12,7 +12,7 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 class CashTransactionController extends Controller implements ExcelExportInterface
 {
-    const FILE_NAME = 'laporan-kas';
+    const FILE_NAME = 'Data transaksi - ';
 
     public function __invoke()
     {
@@ -66,7 +66,7 @@ class CashTransactionController extends Controller implements ExcelExportInterfa
             $sheet->setCellValue('A' . $cell, $key + 1);
             $sheet->setCellValue('B' . $cell, $row->students->name);
             $sheet->setCellValue('C' . $cell, $row->amount);
-            $sheet->setCellValue('D' . $cell, date('d-m-Y', $row->date));
+            $sheet->setCellValue('D' . $cell, date('d-m-Y', strtotime($row->paid_on)));
             $sheet->setCellValue('E' . $cell, $row->is_paid);
             $sheet->getStyle('A1:E' . $cell)->applyFromArray(ExportRepository::setStyle());
             $cell++;

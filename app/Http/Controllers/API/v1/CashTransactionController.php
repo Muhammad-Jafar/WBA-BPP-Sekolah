@@ -89,12 +89,19 @@ class CashTransactionController extends Controller implements APIInterface
 
             DB::commit();
 
+            // return response()->json([
+            //     'error' => false,
+            //     'message' => 'Successfully to charge',
+            //     'paymentResult' => $result,
+            // ]);
+
             return response()->json([
                 'error' => false,
                 'message' => 'Successfully to charge',
                 'paymentResult' => [
                     'amount' => $request->amount,
-                    'va_number' => $result['va_numbers'][0]['va_number']
+                    'va_number' => $result['va_numbers'][0]['va_number'],
+                    'expiry_time' => $result['expiry_time'],
                 ]
             ]);
 

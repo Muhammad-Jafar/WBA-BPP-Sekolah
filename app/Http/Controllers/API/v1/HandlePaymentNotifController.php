@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Log;
 // use Illuminate\Support\Facades\DB;
 use App\Models\CashTransaction;
 use App\Models\Bill;
+use App\Models\Student;
+use App\Traits\WablasTraits;
 
 class HandlePaymentNotifController extends Controller
 {
@@ -61,15 +63,40 @@ class HandlePaymentNotifController extends Controller
             $bills = Bill::find($billId);
             Bill::where('bill_id', $billId)->update(['recent_bill', $bills->recent_bill + $amount]);
 
-        } else if ($transactionStatus == 'expire')
+
+            $studentId = $order->student_id;
+            $phone = Student::find($studentId)->select('phone_number')->first();
+            $message = '*Admin BPP SMAN 1 ALAS* \n Terimakasih telah melakukan pembayaran uang BPP sebesar Rp '.$amount.' untuk jangka waktu 1 Bulan.';
+            $dataMessage =  [
+                'phone' => $phone,
+                'message' => $message,
+                'secret' => false,
+                'retry' => false,
+                'isGroup' => false,
+            ];
+
+            WablasTraits::sendText($dataMessage);
+
+            return response()->json([
+                'error' => false,
+                'message' => 'Success to payment',
+            ]);
+
+        }
+        else if ($transactionStatus == 'expire')
         {
             $order->is_paid = 'REJECTED';
             $order->save();
+
+            return response()->json([
+                'error' => false,
+                'message' => 'Payment has expired',
+            ]);
         }
 
         return response()->json([
             'error' => false,
-            'message' => 'Successfully to do payment',
+            'message' => 'Successfully',
         ]);
     }
 }

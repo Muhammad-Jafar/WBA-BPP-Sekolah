@@ -28,7 +28,7 @@ class CashTransactionReportRepository extends Controller implements CashTransact
         $cashTransactions = $this->model->select('user_id', 'student_id', 'amount', 'paid_on')
             ->with('students:id,name', 'users:id,name')
             ->whereBetween('paid_on', [$startDate, $endDate])
-            ->orderBy('paid_on')->get();
+            ->latest()->get();
 
         $filteredResult['cashTransactions'] = $cashTransactions;
         $filteredResult['sumOfAmount'] = $cashTransactions->sum('amount');

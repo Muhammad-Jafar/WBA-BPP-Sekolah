@@ -104,7 +104,8 @@
 										<th>Nama Siswa</th>
 										<th>Jumlah Bayar</th>
 										<th>Tanggal</th>
-										<th>Pencatat</th>
+										<th>Catatan</th>
+										<th>Admin Pencatat</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -138,7 +139,12 @@
 										</td>
 										<td class="col-auto">
 											<p class=" mb-0">
-												{{ date('d M Y', $latestCashTransaction->date) }}
+												{{ date('d M Y', strtotime($latestCashTransaction->paid_on)) }}
+											</p>
+										</td>
+											<td class="col-auto">
+											<p class=" mb-0">
+												{{ $latestCashTransaction->note }}
 											</p>
 										</td>
 										<td class="col-auto">

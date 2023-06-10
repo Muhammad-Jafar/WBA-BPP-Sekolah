@@ -12,7 +12,7 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 class StudentController extends Controller implements ExcelExportInterface
 {
-    const FILE_NAME = 'laporan-siswa';
+    const FILE_NAME = 'Data siswa - ';
 
     public function __invoke()
     {

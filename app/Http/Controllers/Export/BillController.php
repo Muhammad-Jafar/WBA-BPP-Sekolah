@@ -12,7 +12,7 @@ use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
 class BillController extends Controller implements ExcelExportInterface
 {
-    const FILE_NAME = 'laporan-tagihan';
+    const FILE_NAME = 'Data tagihan - ';
 
     public function __invoke()
     {

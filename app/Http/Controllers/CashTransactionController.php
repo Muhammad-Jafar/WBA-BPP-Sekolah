@@ -11,13 +11,13 @@ use Illuminate\View\View;
 
 class CashTransactionController extends Controller
 {
-    private $cashTransactionRepository, $startOfWeek, $endOfWeek;
+    private $cashTransactionRepository, $startOfQuarter, $endOfQuarter;
 
     public function __construct(CashTransactionRepository $cashTransactionRepository)
     {
         $this->cashTransactionRepository = $cashTransactionRepository;
-        $this->startOfWeek = now()->startOfWeek()->format('Y-m-d');
-        $this->endOfWeek = now()->endOfWeek()->format('Y-m-d');
+        $this->startOfQuarter = now()->startOfQuarter()->format('Y-m-d');
+        $this->endOfQuarter = now()->endOfQuarter()->format('Y-m-d');
     }
 
     /**
@@ -29,18 +29,19 @@ class CashTransactionController extends Controller
     {
         $cashTransactions = CashTransaction::with('students:id,name')
             ->select('id', 'transaction_code', 'student_id', 'amount', 'paid_on', 'is_paid', 'note')
-            ->get();
+            ->latest()
+        ->get();
 
         $students = Student::select('id', 'student_identification_number', 'name')
             ->whereDoesntHave('cash_transactions', fn (Builder $query) => $query->select(['paid_on'])
-            ->whereBetween('paid_on', [$this->startOfWeek, $this->endOfWeek]))
+            ->whereBetween('paid_on', [$this->startOfQuarter, $this->endOfQuarter]))
         ->get();
 
         if (request()->ajax()) {
             return datatables()->of($cashTransactions)
                 ->addIndexColumn()
                 ->addColumn('amount', fn ($model) => indonesianCurrency($model->amount))
-                ->addColumn('paid_on', fn ($model) => date('d M Y', $model->date))
+                ->addColumn('paid_on', fn ($model) => date('d M Y', strtotime($model->paid_on)))
                 ->addColumn('is_paid', 'cash_transactions.datatable.status')
                 ->rawColumns(['is_paid'])
                 ->toJson();

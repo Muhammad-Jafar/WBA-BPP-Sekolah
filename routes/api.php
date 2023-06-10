@@ -31,7 +31,7 @@ Route::name('api.')->prefix('v1')->group(function () {
             Route::get('/billings/{id}', [BillController::class, 'show'])->name('billings.show');
 
             Route::post('/transaction/pay', [CashTransactionController::class, 'pay'])->name('cash-transaction.pay'); // make request for midtrans
-            Route::post('/transaction/status', [HandlePaymentNotifController::class])->name('cash-transaction.status'); // Check status of transaction
+            Route::post('/transaction/status', HandlePaymentNotifController::class); // Check status of transaction
 
             Route::get('/chart', DashboardChartController::class)->name('chart');
         });
