@@ -3,9 +3,6 @@
 		<div class="float-start">
 			<p>{{ date('Y') }} &copy; SMAN 1 ALAS</p>
 		</div>
-		<div class="float-end">
-			<p>Crafted with <span class="text-danger"><i class="bi bi-heart"></i></span> by Inisialku</p>
-		</div>
 	</div>
 </footer>
 </div>

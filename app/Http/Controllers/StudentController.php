@@ -33,6 +33,9 @@ class StudentController extends Controller
                 'school_major_id',
                 'student_identification_number',
                 'name',
+                'gender',
+                'email',
+                'phone_number',
                 'school_year_start',
                 'school_year_end'
             )
@@ -42,14 +45,11 @@ class StudentController extends Controller
         if (request()->ajax()) {
             return datatables()->of($students)
                 ->addIndexColumn()
-                ->addColumn(
-                    'school_class_id',
-                    fn ($model) => $model->school_class->name
-                )
-                ->addColumn('school_major', 'students.datatable.school_major')
-                ->addColumn('school_year', 'students.datatable.school_year')
+                ->addColumn('gender', 'students.datatable.gender')
+                ->addColumn('school_class_id', fn ($model) => $model->school_class->name)
+                ->addColumn('school_major', fn ($model) => $model->school_major->abbreviated_word)
                 ->addColumn('action', 'students.datatable.action')
-                ->rawColumns(['action', 'school_major', 'school_year'])
+                ->rawColumns(['action', 'gender'])
                 ->toJson();
         }
 

@@ -68,9 +68,12 @@
 						<th scope=" col">#</th>
 						<th scope="col">NIS</th>
 						<th scope="col">Nama Lengkap</th>
+						<th scope="col">Jenis kelamin</th>
+						<th scope="col">Email</th>
+						<th scope="col">Nomor kontak</th>
 						<th scope="col">Kelas</th>
 						<th scope="col">Jurusan</th>
-						<th scope="col">TA</th>
+						<th scope="col">Angkatan</th>
 						<th scope="col">Aksi</th>
 					</tr>
 				</thead>
@@ -84,7 +87,6 @@
 
 @push('modal')
 @include('students.modal.create')
-@include('students.modal.show')
 @include('students.modal.edit')
 @endpush
 

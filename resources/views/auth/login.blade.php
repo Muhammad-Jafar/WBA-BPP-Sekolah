@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="row h-100">
-	<div class="col-lg-5 col-12">
+	<div class="col-lg-4 col-12">
 		<div id="auth-left">
 			<h1 class="auth-title">Login.</h1>
 			<p class="auth-subtitle mb-5">Masuk untuk melanjutkan.</p>
@@ -31,19 +31,13 @@
 						<i class="bi bi-shield-lock"></i>
 					</div>
 				</div>
-				<div class="form-check form-check-lg d-flex align-items-end">
-					<input class="form-check-input me-2" type="checkbox" value="" id="flexCheckDefault">
-					<label class="form-check-label text-gray-600" for="flexCheckDefault">
-						Keep me logged in
-					</label>
-				</div>
 				<button class="btn btn-primary btn-block btn-lg shadow-lg mt-5">Log in</button>
 			</form>
 		</div>
 	</div>
-	<div class="col-lg-7 d-none d-lg-block">
+	<div class="col-lg-8 d-none d-lg-block">
 		<div id="auth-right">
-
+			<img style="width:100%; height:100%; position: relative;" src="{{ asset('img/background/auth-bg-login.jpg') }}" alt="background-login">
 		</div>
 	</div>
 </div>

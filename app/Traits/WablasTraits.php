@@ -4,7 +4,7 @@ namespace App\Traits;
 
 trait WablasTraits
 {
-    public static function sendText(Array $text)
+    public static function sendText($text = [])
     {
         $curl = curl_init();
         $token = env('WABLAS_API_KEY');
@@ -25,6 +25,8 @@ trait WablasTraits
         $result = curl_exec($curl);
         curl_close($curl);
 
-        // return $result;
+        return response()->json([
+            'result' => $result,
+        ]);
     }
 }

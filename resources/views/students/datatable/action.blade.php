@@ -1,13 +1,6 @@
 @role('admin')
 	<div class="btn-group" role="group">
 			<div class="mx-1">
-					<button type="button" data-id="{{ $model->id }}" class="btn btn-primary student-detail"
-							data-bs-toggle="modal" data-bs-target="#showStudentModal">
-							<i class="bi bi-search"></i>
-					</button>
-			</div>
-
-			<div class="mx-1">
 					<button type="button" data-id="{{ $model->id }}" class="btn btn-success student-edit"
 							data-bs-toggle="modal" data-bs-target="#editStudentModal">
 							<i class="bi bi-pencil-square"></i>

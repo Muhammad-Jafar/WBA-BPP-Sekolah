@@ -43,7 +43,7 @@
    <div class="col card px-3 py-3">
       <div class="d-flex justify-content-end pb-3">
          <div class="btn-group d-gap gap-2">
-            @role('admin')
+						@role('admin')
 							<a href="{{ route('billings.export') }}" class="btn btn-success">
 								<i class="bi bi-file-earmark-excel-fill"></i>
 								Export Excel

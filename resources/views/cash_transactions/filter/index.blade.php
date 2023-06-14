@@ -22,9 +22,8 @@
 						<th scope="col">Nama Siswa</th>
 						<th scope="col">Total bayar</th>
 						<th scope="col">Tanggal</th>
-						<th scope="col">status pembayaran</th>
 						<th scope="col">Catatan</th>
-						<th scope="col">Admin Pencatat</th>
+						<th scope="col">status pembayaran</th>
 					</tr>
 				</thead>
 				<tbody>

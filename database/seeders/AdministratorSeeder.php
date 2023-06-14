@@ -17,7 +17,7 @@ class AdministratorSeeder extends Seeder
     {
         // Administrator
         User::create([
-            'name' => 'Administrator',
+            'name' => 'Admin BPP',
             'email' => 'admin@mail.com',
             'email_verified_at' => now(),
             'password' => bcrypt('admin'),
@@ -26,10 +26,10 @@ class AdministratorSeeder extends Seeder
 
         // Supervisor
         User::create([
-            'name' => 'Supervisor',
-            'email' => 'spv@mail.com',
+            'name' => 'Kepla sekolah',
+            'email' => 'kepsek@mail.com',
             'email_verified_at' => now(),
-            'password' => bcrypt('supervisor'),
+            'password' => bcrypt('kepsek'),
             'remember_token' => Str::random(5),
         ])->assignRole('supervisor')->givePermissionTo(['create', 'read']);
     }

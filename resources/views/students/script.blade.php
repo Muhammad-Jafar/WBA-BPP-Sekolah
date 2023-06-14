@@ -10,47 +10,14 @@
 				{ data: 'DT_RowIndex', name: 'DT_RowIndex' },
 				{ data: 'student_identification_number', name: 'student_identification_number' },
 				{ data: 'name', name: 'name' },
+				{ data: 'gender', name: 'gender' },
+				{ data: 'email', name: 'email' },
+				{ data: 'phone_number', name: 'phone_number' },
 				{ data: 'school_class_id', name: 'school_classes.name' },
 				{ data: 'school_major', name: 'school_majors.name' },
-				{ data: 'school_year', name: 'school_year' },
+				{ data: 'school_year_start', name: 'school_year_start' },
 				{ data: 'action', name: 'action' },
 			]
-		});
-
-		$('#datatable').on('click', '.student-detail', function () {
-			loadingAlert.show();
-
-			let url = "{{ route('api.student.show', ':param') }}";
-			let id = $(this).data('id');
-
-			url = url.replace(':param', id);
-
-			$('#showStudentModal input').each(function () {
-				$(this).val('Sedang mengambil data..');
-			});
-
-			$.ajax({
-				url: url,
-				headers: {
-					'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-					'Authorization': 'Bearer ' + localStorage.getItem('token'),
-					'Accept': 'application/json',
-					'Content-Type': 'application/json'
-				},
-				success: function (response) {
-					loadingAlert.slideUp();
-
-					$('#showStudentModal #student_identification_number').val(response.data.student_identification_number);
-					$('#showStudentModal #name').val(response.data.name);
-					$('#showStudentModal #gender').val(response.data.gender);
-					$('#showStudentModal #school_class_id').val(response.data.school_classes.name);
-					$('#showStudentModal #school_major_id').val(response.data.school_majors.name);
-					$('#showStudentModal #email').val(response.data.email);
-					$('#showStudentModal #phone_number').val(response.data.phone_number);
-					$('#showStudentModal #school_year_start').val(response.data.school_year_start);
-					$('#showStudentModal #school_year_end').val(response.data.school_year_end);
-				}
-			});
 		});
 
 		$('#datatable').on('click', '.student-edit', function () {

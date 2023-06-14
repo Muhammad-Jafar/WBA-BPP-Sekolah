@@ -7,8 +7,17 @@ use App\Http\Controllers\Export\CashTransactionController;
 use App\Http\Controllers\Export\CashTransactionReportController;
 use App\Http\Controllers\Export\BillController;
 
-Route::get('/billings/export', BillController::class)->name('billings.export');
-Route::get('/report/filter/export/{start_date}/{end_date}', CashTransactionReportController::class)->name('report.export');
-Route::get('/students/export', StudentController::class)->name('students.export');
-Route::get('/cash-transactions/export', CashTransactionController::class)->name('cash-transactions.export');
-Route::get('/administrators/export', AdministratorController::class)->name('administrators.export');
+Route::get('/billings/export', BillController::class)->name('billings.export')
+->middleware('role:admin');
+
+Route::get('/report/filter/export/{start_date}/{end_date}', CashTransactionReportController::class)
+->name('report.export')->middleware('role:admin|supervisor');
+
+Route::get('/students/export', StudentController::class)->name('students.export')
+->middleware('role:admin');
+
+Route::get('/cash-transactions/export', CashTransactionController::class)
+->name('cash-transactions.export')->middleware('role:admin');
+
+Route::get('/administrators/export', AdministratorController::class)
+->name('administrators.export')->middleware('role:admin');

@@ -29,9 +29,8 @@
                             { data: 'students.name', name: 'students.name' },
                             { data: 'amount', name: 'amount' },
                             { data: 'paid_on', name: 'paid_on' },
-                            { data: 'is_paid', name: 'is_paid' },
                             { data: 'note', name: 'note' },
-                            { data: 'users.name', name: 'users.name' },
+                            { data: 'is_paid', name: 'is_paid' },
                         ]
                     });
                 },
