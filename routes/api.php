@@ -43,4 +43,8 @@ Route::name('api.')->prefix('v1')->group(function () {
         Route::post('/logout', [LogoutController::class, 'logout'])->name('logout')->middleware('role:student|admin|supervisor');
     });
 
+    Route::post('/transaction/notif', [CashTransactionController::class, 'handleNotification'])
+    ->name('cash-transaction.notif');
+    // ->middleware('role:admin|student'); // Check status of transaction
+
 });

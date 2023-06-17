@@ -11,11 +11,10 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
 use App\Models\Bill;
 use App\Models\Student;
 use App\Traits\WablasTraits;
+use App\Services\Midtrans\Transaction;
 
 class CashTransactionController extends Controller
 {
@@ -56,41 +55,17 @@ class CashTransactionController extends Controller
         }
 
         try {
+            $transaction_id = Str::uuid()->toString();
+            $payload = [
+                'transaction_id' => $transaction_id,
+                'amount' => $request->amount,
+                'name' => $request->name,
+                'email' => $request->email,
+            ];
+
+            $response = Transaction::charge($payload);
+
             DB::beginTransaction();
-                $transaction_id = Str::uuid()->toString();
-                $response = Http::withBasicAuth(config('midtrans.server_key'), '')
-                    ->post('https://api.sandbox.midtrans.com/v2/charge', [
-                        'payment_type' => 'bank_transfer',
-                        'transaction_details' => [
-                            'order_id' => $transaction_id,
-                            'gross_amount' => $request->amount
-                        ],
-                        'customer_details' => [
-                            'first_name' => $request->name,
-                            'email' => $request->email,
-                        ],
-                        'bank_transfer' => [
-                            'bank' => 'bni'
-                        ],
-                    ]
-                );
-                if ($response->failed())
-                {
-                    return response()->json([
-                        'error' => true,
-                        'message' => "failed to charge transaction"
-                    ], 500);
-                }
-
-                $result = $response->json();
-                if ($result['status_code'] != '201')
-                {
-                    return response()->json([
-                        'error' => true,
-                        'message' => $result['status_message']
-                    ], 500);
-                }
-
                 DB::table('cash_transactions')->insert([
                     'id' => $transaction_id,
                     'transaction_code' => 'TRANS-'.Str::random(6),
@@ -103,24 +78,113 @@ class CashTransactionController extends Controller
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]);
-
             DB::commit();
 
-            return response()->json([
-                'error' => false,
-                'message' => 'Successfully to charge',
-                'paymentResult' => [
-                    'amount' => $request->amount,
-                    'va_number' => $result['va_numbers'][0]['va_number'],
-                    'expiry_time' => $result['expiry_time'],
-                ]
-            ]);
+            return $response;
 
         }catch(\Exception $e) {
             DB::rollback();
             return response()->json([
                 'error' => true,
                 'message' => $e->getMessage(),
+            ]);
+        }
+    }
+
+        /**
+     * Handle the incoming notification.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function handleNotification(Request $request)
+    {
+
+        $payload = $request->all();
+        // Log::info("incoming-midtrans", ['payload' => $payload]);
+
+        $ownSignature = hash('sha512', $payload['order_id'].$payload['status_code'].$payload['gross_amount'].config('midtrans.server_key'));
+        if ($ownSignature != $payload['signature_key'])
+        {
+            return response()->json([
+                'error' => true,
+                'message' => 'Invalid signature',
+            ], 401);
+        }
+
+        try {
+            $order = CashTransaction::find($payload['order_id']);
+            if ($payload['transaction_status'] == 'settlement')
+            {
+                $order->where('id', $order->id)->update(['is_paid' => 'APPROVED']);
+
+                $amount = $order->amount;
+                $bills = Bill::find($order->bill_id);
+
+                if (($amount + $bills->recent_bill) > $bills->billings)
+                {
+                   return response()->json([
+                    'error' => true,
+                    'message' => "The billings has been done"
+                   ]);
+                }
+                else if (($amount + $bills->recent_bill) == $bills->billings)
+                {
+                    $bills->where('id', $order->bill_id)->update([
+                        'recent_bill' => $bills->recent_bill + $amount,
+                        'status' => 'DONE'
+                    ]);
+                }
+                else
+                {
+                    $bills->where('id', $order->bill_id)->update(['recent_bill' => $bills->recent_bill + $amount]);
+                }
+
+                $student = Student::find($order->student_id);
+                $phone = $student['phone_number'];
+                $expire = $amount % 70000 == 0;
+                $message = <<<EOT
+                _from_ : Admin BPP SMAN 1 ALAS
+                _to_ : Orang tua siswa
+
+                Terimakasih telah melakukan pembayaran uang BPP sebesar Rp *$amount* untuk jangka waktu $expire Bulan.
+                EOT;
+                $dataMessage =  [
+                    'phone' => $phone,
+                    'message' => $message,
+                ];
+                WablasTraits::sendText($dataMessage);
+
+                return response()->json([
+                    'error' => false,
+                    'message' => 'Payment successful',
+                    'transaction_status' => $payload['transaction_status'],
+                ]);
+            }
+            else if ($payload['transaction_status'] == 'expire')
+            {
+                DB::table('cash_transactions')->where('id', $order->id)->update(['is_paid' => 'REJECTED']);
+
+                return response()->json([
+                    'error' => false,
+                    'message' => 'Payment has expired',
+                    'transaction_status' => $payload['transaction_status'],
+                ]);
+            }
+            else if ($payload['transaction_status'] == 'pending')
+            {
+                return response()->json([
+                    'error' => false,
+                    'message' => 'There is no transaction has done',
+                    'transaction_status' => $payload['transaction_status'],
+                ]);
+            }
+        }
+        catch (\Exception $e) {
+            DB::rollback();
+            return response()->json([
+                'error' => true,
+                'message' => "Payment Error: " . $e->getMessage(),
             ]);
         }
     }
@@ -143,82 +207,7 @@ class CashTransactionController extends Controller
             ]);
         }
 
-        try {
-            $response = Http::withBasicAuth(config('midtrans.server_key'), '')
-            ->get('https://api.sandbox.midtrans.com/v2/'.$request->transaction_id.'/status');
-
-            if ($response->failed())
-            {
-                return response()->json([
-                    'error' => true,
-                    'message' => "failed to make request"
-                ], 500);
-            }
-
-            $result = $response->json();
-            // Log::info("incoming-midtrans", ['payload' => $result]);
-
-            $ownSignature = hash('sha512', $request->transaction_id.$result['status_code'].$result['gross_amount'].config('midtrans.server_key'));
-            if ($ownSignature != $result['signature_key'])
-            {
-                return response()->json([
-                    'error' => true,
-                    'message' => 'Invalid signature',
-                ], 401);
-            }
-
-            $order = CashTransaction::find($request->transaction_id);
-            if ($result['transaction_status'] == 'settlement')
-            {
-                $order->where('id', $order->id)->update(['is_paid' => 'APPROVED']);
-
-                $amount = $order->amount;
-                $bills = Bill::find($order->bill_id);
-                $bills->where('id', $order->bill_id)->update(['recent_bill' => $bills->recent_bill + $amount]);
-
-                $student = Student::find($order->student_id);
-                $phone = $student['phone_number'];
-                $expire = $amount % 70000 == 0;
-                $message = <<<EOT
-                _from_ : Admin BPP SMAN 1 ALAS
-                _to_ : Orang tua siswa
-
-                Terimakasih telah melakukan pembayaran uang BPP sebesar Rp *$amount* untuk jangka waktu $expire Bulan.
-                EOT;
-                $dataMessage =  [
-                    'phone' => $phone,
-                    'message' => $message,
-                ];
-                WablasTraits::sendText($dataMessage);
-
-                return response()->json([
-                    'error' => false,
-                    'message' => 'Payment successful',
-                ]);
-            }
-            else if ($result['transaction_status'] == 'expire')
-            {
-                DB::table('cash_transactions')->where('id', $order->id)->update(['is_paid' => 'REJECTED']);
-
-                return response()->json([
-                    'error' => false,
-                    'message' => 'Payment has expired',
-                ]);
-            }
-            else if ($result['transaction_status'] == 'pending')
-            {
-                return response()->json([
-                    'error' => false,
-                    'message' => 'There is no transaction has done',
-                ]);
-            }
-        }
-        catch (\Exception $e) {
-            DB::rollback();
-            return response()->json([
-                'error' => true,
-                'message' => "Payment Error: " . $e->getMessage(),
-            ]);
-        }
+        $response = Transaction::status($request->transaction_id);
+        return $response;
     }
 }
