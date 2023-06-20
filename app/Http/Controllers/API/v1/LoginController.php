@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use App\Http\Resources\StudentLoginResource;
+use Carbon\Carbon;
 
 class LoginController extends Controller
 {
@@ -28,7 +29,9 @@ class LoginController extends Controller
 
     public function loginStudent(Request $request)
     {
-        if (!$token = auth()->guard('student')->attempt($request->only('email', 'password'))) {
+        $credential = $request->only('email', 'password');
+        $expire = ['exp' => Carbon::now()->addDays(1)->timestamp];
+        if (!$token = auth()->guard('student')->attempt($credential, $expire)) {
             return response()->json([
                 'error' => true,
                 'message' => 'Unathorized',

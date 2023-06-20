@@ -65,7 +65,9 @@ class CashTransactionController extends Controller
 
             $response = Transaction::charge($payload);
 
-            DB::beginTransaction();
+            if ($response['status_code'] == 201)
+            {
+                DB::beginTransaction();
                 DB::table('cash_transactions')->insert([
                     'id' => $transaction_id,
                     'transaction_code' => 'TRANS-'.Str::random(6),
@@ -78,7 +80,8 @@ class CashTransactionController extends Controller
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]);
-            DB::commit();
+                DB::commit();
+            }
 
             return $response;
 
@@ -91,7 +94,7 @@ class CashTransactionController extends Controller
         }
     }
 
-        /**
+    /**
      * Handle the incoming notification.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -202,8 +205,7 @@ class CashTransactionController extends Controller
         {
             return response()->json([
                 'error' => true,
-                'message' => "Transaction not found",
-                'data' => $validatior->errors(),
+                'message' => "Fill the data is must",
             ]);
         }
 

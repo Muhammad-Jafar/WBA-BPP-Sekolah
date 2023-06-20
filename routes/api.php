@@ -34,7 +34,7 @@ Route::name('api.')->prefix('v1')->group(function () {
         ->name('cash-transaction.pay');
         // ->middleware('role:student'); // make request for midtrans
 
-        Route::get('/transaction/status', [CashTransactionController::class, 'status'])
+        Route::post('/transaction/status', [CashTransactionController::class, 'status'])
         ->name('cash-transaction.status');
         // ->middleware('role:admin|student'); // Check status of transaction
 
