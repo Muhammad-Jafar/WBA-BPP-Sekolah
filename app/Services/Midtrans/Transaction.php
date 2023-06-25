@@ -4,7 +4,9 @@ namespace App\Services\Midtrans;
 
 use Illuminate\Support\Facades\Http;
 use Illuminate\Http\JsonResponse;
-// use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class Transaction
 {
@@ -46,6 +48,23 @@ class Transaction
                 'error' => true,
                 'message' => $result['status_message']
             ], 500);
+        }
+        else if ($result['status_code'] == '201')
+        {
+            DB::beginTransaction();
+            DB::table('cash_transactions')->insert([
+                'id' => $payload['transaction_id'],
+                'transaction_code' => 'TRANS-'.Str::random(6),
+                'bill_id' => $payload['bill_id'],
+                'user_id' => 1,
+                'student_id' => $payload['student_id'],
+                'amount' => $payload['amount'],
+                'paid_on' => now(),
+                'note' => $payload['note'],
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+            DB::commit();
         }
 
         return response()->json([

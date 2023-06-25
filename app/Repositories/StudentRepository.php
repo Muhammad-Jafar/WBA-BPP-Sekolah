@@ -8,10 +8,7 @@ use App\Models\Student;
 
 class StudentRepository extends Controller implements StudentInterface
 {
-    public function __construct(
-        private Student $model
-    ) {
-    }
+    public function __construct(private Student $model) {}
 
     /**
      * Menghitung jenis kelamin pelajar berdasarkan value angka di parameter.

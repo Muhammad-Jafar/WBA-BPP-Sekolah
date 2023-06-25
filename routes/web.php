@@ -16,26 +16,24 @@ require __DIR__ . '/auth.php';
 Route::redirect('/', 'login');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', DashboardController::class)->name('dashboard')
-    ->middleware('role:admin|supervisor');
+    Route::get('/dashboard', DashboardController::class)->name('dashboard')->middleware('role:admin|supervisor');
 
-    Route::resource('students', StudentController::class)->except('create', 'show', 'edit')
-    ->middleware('role:admin');
+    Route::resource('students', StudentController::class)->middleware('role:admin');
+    // Route::resource('students', StudentController::class)->except('create', 'show', 'edit')->middleware('role:admin');
 
-    Route::resource('administrators', AdministratorController::class)->except('create', 'show', 'edit', 'destroy')
-    ->middleware('role:admin|supervisor');
 
-    Route::get('/cash-transactions/filter', CashTransactionFilterController::class)->name('cash-transactions.filter')
-    ->middleware('role:admin|supervisor');
+    // Route::resource('administrators', AdministratorController::class)->except('create', 'show', 'edit', 'destroy')
+    // ->middleware('role:admin|supervisor');
+
+    // Route::get('/cash-transactions/filter', CashTransactionFilterController::class)->name('cash-transactions.filter')
+    // ->middleware('role:admin|supervisor');
 
     Route::resource('cash-transactions', CashTransactionController::class)->except('create', 'show', 'edit')
     ->middleware('role:admin|supervisor');
 
-    Route::resource('billings', BillController::class)->except('create', 'show')->middleware('role:admin|supervisor')
-    ->middleware('role:admin|supervisor');
+    Route::resource('billings', BillController::class)->except('create', 'show')->middleware('role:admin|supervisor');
 
-    Route::get('/report', CashTransactionReportController::class)->name('report.index')->middleware('role:admin|supervisor')
-    ->middleware('role:admin|supervisor');
+    Route::get('/report', CashTransactionReportController::class)->name('report.index')->middleware('role:admin|supervisor');
 
     // Soft Deletes Routes
     Route::controller(StudentHistoryController::class)->prefix('/students/history')->name('students.')->group(function () {

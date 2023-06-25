@@ -101,7 +101,6 @@
 										<th>Jumlah Bayar</th>
 										<th>Tanggal</th>
 										<th>Catatan</th>
-										<th>Admin Pencatat</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -143,11 +142,6 @@
 												{{ $latestCashTransaction->note }}
 											</p>
 										</td>
-										<td class="col-auto">
-											<p class=" mb-0">
-												{{ $latestCashTransaction->users->name }}
-											</p>
-										</td>
 									</tr>
 									@empty
 									<tr>
@@ -166,4 +160,3 @@
 	</div>
 </section>
 @endsection
-

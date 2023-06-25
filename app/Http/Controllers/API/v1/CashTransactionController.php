@@ -15,6 +15,7 @@ use App\Models\Bill;
 use App\Models\Student;
 use App\Traits\WablasTraits;
 use App\Services\Midtrans\Transaction;
+use Illuminate\Support\Facades\Log;
 
 class CashTransactionController extends Controller
 {
@@ -28,7 +29,7 @@ class CashTransactionController extends Controller
         ]);
     }
 
-    /**
+     /**
      * Handle the payment request.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -58,31 +59,15 @@ class CashTransactionController extends Controller
             $transaction_id = Str::uuid()->toString();
             $payload = [
                 'transaction_id' => $transaction_id,
+                'bill_id' => $request->bill_id,
+                'student_id' => $request->student_id,
                 'amount' => $request->amount,
+                'note' => $request->note,
                 'name' => $request->name,
                 'email' => $request->email,
             ];
 
             $response = Transaction::charge($payload);
-
-            if ($response['status_code'] == 201)
-            {
-                DB::beginTransaction();
-                DB::table('cash_transactions')->insert([
-                    'id' => $transaction_id,
-                    'transaction_code' => 'TRANS-'.Str::random(6),
-                    'bill_id' => $request->bill_id,
-                    'user_id' => 1,
-                    'student_id' => $request->student_id,
-                    'amount' => $request->amount,
-                    'paid_on' => now(),
-                    'note' => $request->note,
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ]);
-                DB::commit();
-            }
-
             return $response;
 
         }catch(\Exception $e) {
@@ -104,7 +89,7 @@ class CashTransactionController extends Controller
     {
 
         $payload = $request->all();
-        // Log::info("incoming-midtrans", ['payload' => $payload]);
+        Log::info("incoming-midtrans", ['payload' => $payload]);
 
         $ownSignature = hash('sha512', $payload['order_id'].$payload['status_code'].$payload['gross_amount'].config('midtrans.server_key'));
         if ($ownSignature != $payload['signature_key'])
@@ -193,19 +178,19 @@ class CashTransactionController extends Controller
     }
 
     /**
-     * Handle the incoming status request.
+     * Handle the incoming notification.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\JsonResponse
      */
     public function status(Request $request)
     {
-        $validatior = Validator::make($request->all(), ['transaction_id' => 'required' ]);
-        if ($validatior->fails())
+        $validator = Validator::make($request->all(), ['transaction_id' => 'required']);
+        if ($validator->fails())
         {
             return response()->json([
                 'error' => true,
-                'message' => "Fill the data is must",
+                'message' => 'Fill the data is must'
             ]);
         }
 

@@ -28,7 +28,7 @@
 					<span>Siswa</span>
 				</a>
 			</li>
-			<li class="sidebar-item has-sub {{ request()->routeIs('cash-transactions.*') ? 'active' : '' }}">
+			{{-- <li class="sidebar-item has-sub {{ request()->routeIs('cash-transactions.*') ? 'active' : '' }}">
 				<a href="#" class='sidebar-link'>
 					<i class="bi bi-cash-stack"></i>
 					<span>Transaksi</span>
@@ -41,29 +41,35 @@
 						<a href="{{ route('cash-transactions.filter') }}">Filter Transaksi</a>
 					</li>
 				</ul>
+			</li> --}}
+			<li class="sidebar-item {{ request()->is('cash-transactions*') ? 'active' : '' }}">
+				<a href="{{ route('cash-transactions.index') }}" class='sidebar-link'>
+					<i class="bi bi-cash-stack"></i>
+					<span>Transaksi</span>
+				</a>
 			</li>
 			<li class="sidebar-item {{ request()->is('billings*') ? 'active' : '' }}">
 				<a href="{{ route('billings.index') }}" class='sidebar-link'>
-					<i class="bi bi-file-earmark-spreadsheet-fill"></i>
+					<i class="bi bi-receipt"></i>
 					<span>Tagihan</span>
 				</a>
 			</li>
 			<li class="sidebar-item {{ request()->is('report*') ? 'active' : '' }}">
 				<a href="{{ route('report.index') }}" class='sidebar-link'>
-					<i class="bi bi-file-earmark-spreadsheet-fill"></i>
+					<i class="bi bi-menu-app-fill"></i>
 					<span>Laporan</span>
 				</a>
 			</li>
-			<li class="sidebar-item {{ request()->routeIs('administrators.*') ? 'active' : '' }}">
+			{{-- <li class="sidebar-item {{ request()->routeIs('administrators.*') ? 'active' : '' }}">
 				<a href="{{ route('administrators.index') }}" class='sidebar-link'>
 					<i class="bi bi-person-badge-fill"></i>
 					<span>Administrator</span>
 				</a>
-			</li>
+			</li> --}}
 		@elserole('supervisor')
 			<li class="sidebar-item {{ request()->is('report*') ? 'active' : '' }}">
 				<a href="{{ route('report.index') }}" class='sidebar-link'>
-					<i class="bi bi-file-earmark-spreadsheet-fill"></i>
+					<i class="bi bi-menu-app-fill"></i>
 					<span>Rekapitulasi</span>
 				</a>
 			</li>

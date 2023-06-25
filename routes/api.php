@@ -14,17 +14,14 @@ Route::name('api.')->prefix('v1')->group(function () {
     Route::post('/login/student', [LoginController::class, 'loginStudent'])->name('login.student');
 
     Route::middleware('jwt')->group(function () {
-        Route::get('/administrator/{id}/edit', [AdministratorController::class, 'edit'])
-        ->name('administrator.edit')->middleware('role:admin');
-
-        Route::get('/student/{id}', [StudentController::class, 'show'])
-        ->name('student.show')->middleware('role:admin');
+        // Route::get('/student/{id}', [StudentController::class, 'show'])
+        // ->name('student.show')->middleware('role:admin');
 
         Route::get('/student/{id}/edit', [StudentController::class, 'edit'])
         ->name('student.edit')->middleware('role:admin');
 
-        Route::get('/cash-transaction/{id}', [CashTransactionController::class, 'show'])
-        ->name('cash-transaction.show')->middleware('role:admin');
+        // Route::get('/cash-transaction/{id}', [CashTransactionController::class, 'show'])
+        // ->name('cash-transaction.show')->middleware('role:admin');
 
         Route::get('/billings/{id}', [BillController::class, 'show'])
         ->name('billings.show');
@@ -36,15 +33,14 @@ Route::name('api.')->prefix('v1')->group(function () {
 
         Route::post('/transaction/status', [CashTransactionController::class, 'status'])
         ->name('cash-transaction.status');
-        // ->middleware('role:admin|student'); // Check status of transaction
 
-        Route::get('/chart', DashboardChartController::class)->name('chart')->middleware('role:admin');
+        // Route::get('/chart', DashboardChartController::class)->name('chart')->middleware('role:admin');
 
         Route::post('/logout', [LogoutController::class, 'logout'])->name('logout')->middleware('role:student|admin|supervisor');
     });
 
     Route::post('/transaction/notif', [CashTransactionController::class, 'handleNotification'])
-    ->name('cash-transaction.notif');
+    ->name('cash-transaction.status');
     // ->middleware('role:admin|student'); // Check status of transaction
 
 });

@@ -8,7 +8,8 @@
 			<div class="modal-body">
 				@include('utilities.loading-alert')
 				<form action="#" method="POST" id="edit-student-form">
-					@csrf @method('PUT')
+					@method('PUT')
+					@csrf
 					<div class="row">
 						<div class="col-sm-12 col-md-12 col-lg-4">
 							<div class="mb-3">
@@ -94,6 +95,7 @@
 							</div>
 						</div>
 					</div>
+
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Batalkan</button>
 						<button type="submit" class="btn btn-success">Simpan</button>

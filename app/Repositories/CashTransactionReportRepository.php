@@ -4,12 +4,13 @@ namespace App\Repositories;
 
 use App\Contracts\CashTransactionReportInterface;
 use App\Http\Controllers\Controller;
+use App\Models\Bill;
 use App\Models\CashTransaction;
+use App\Models\Student;
 
 class CashTransactionReportRepository extends Controller implements CashTransactionReportInterface
 {
-    public function __construct( private CashTransaction $model
-) {}
+    public function __construct( private CashTransaction $model, private Bill $bills) {}
 
     /**
      * Mendapatkan data hasil filter berdasarkan tanggal awal dan tanggal akhir.
@@ -25,12 +26,16 @@ class CashTransactionReportRepository extends Controller implements CashTransact
         $startDate = date('Y-m-d', strtotime($start));
         $endDate = date('Y-m-d',strtotime($end));
 
-        $cashTransactions = $this->model->select('user_id', 'student_id', 'amount', 'paid_on')
-            ->with('students:id,name', 'users:id,name')
-            ->whereBetween('paid_on', [$startDate, $endDate])
-            ->latest()->get();
+        $cashTransactions = $this->model->select('user_id', 'student_id', 'amount', 'paid_on', 'is_paid')
+            ->with('students', 'users')->whereBetween('paid_on', [$startDate, $endDate])
+        ->latest()->get();
 
-        $filteredResult['cashTransactions'] = $cashTransactions;
+        $report = $this->bills->select('student_id', 'billings', 'recent_bill', 'status' ,'updated_at')
+            ->with('students')->whereBetween('updated_at', [$startDate, $endDate])
+        ->latest()->get();
+
+        // $filteredResult['cashTransactions'] = $cashTransactions;
+        $filteredResult['cashTransactions'] = $report;
         $filteredResult['sumOfAmount'] = $cashTransactions->sum('amount');
         $filteredResult['startDate'] = date('d-m-Y', strtotime($startDate));
         $filteredResult['endDate'] = date('d-m-Y', strtotime($endDate));
@@ -54,13 +59,11 @@ class CashTransactionReportRepository extends Controller implements CashTransact
      */
     public function sum(string $column, string $type): Int
     {
-        $model = $this->model
-            ->select('paid_on', 'amount')
-            ->whereYear('paid_on', date('Y'));
+        $model = $this->model->select('paid_on', 'amount')
+        ->whereYear('paid_on', date('Y'));
 
         match ($type) {
             'thisDay' => $model->whereDay('paid_on', date('d')),
-            'thisWeek' => $model->whereBetween('paid_on', [now()->startOfWeek(), now()->endOfWeek()]),
             'thisMonth' => $model->whereMonth('paid_on', date('m')),
             'thisYear' => $model->whereYear('paid_on', date('Y'))
         };

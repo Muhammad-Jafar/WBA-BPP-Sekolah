@@ -6,7 +6,8 @@ use Closure;
 use Exception;
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
-use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
+use Tymon\JWTAuth\Exceptions\TokenInvalidException;
+use Tymon\JWTAuth\Exceptions\TokenExpiredException;
 
 class JWTMiddleware
 {
@@ -29,12 +30,12 @@ class JWTMiddleware
                 ]);
             }
         } catch (Exception $e) {
-            if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenInvalidException) {
+            if ($e instanceof TokenInvalidException) {
                 return response()->json([
                 'error' => true,
                 'message' => 'Token is Invalid'
             ]);
-            } else if ($e instanceof \Tymon\JWTAuth\Exceptions\TokenExpiredException) {
+            } else if ($e instanceof TokenExpiredException) {
                 return response()->json([
                     'error' => true,
                     'message' => 'Token is Expired'

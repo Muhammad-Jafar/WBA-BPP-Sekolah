@@ -14,10 +14,7 @@ use Illuminate\View\View;
 
 class StudentController extends Controller
 {
-    public function __construct(
-        private StudentRepository $studentRepository
-    ) {
-    }
+    public function __construct(private StudentRepository $studentRepository) {}
 
     /**
      * Display a listing of the resource.
@@ -27,20 +24,8 @@ class StudentController extends Controller
     public function index(): View|JsonResponse
     {
         $students = Student::with('school_class:id,name', 'school_major:id,name,abbreviated_word')
-            ->select(
-                'id',
-                'school_class_id',
-                'school_major_id',
-                'student_identification_number',
-                'name',
-                'gender',
-                'email',
-                'phone_number',
-                'school_year_start',
-                'school_year_end'
-            )
             ->orderBy('name')
-            ->get();
+        ->get();
 
         if (request()->ajax()) {
             return datatables()->of($students)
@@ -50,7 +35,7 @@ class StudentController extends Controller
                 ->addColumn('school_major', fn ($model) => $model->school_major->abbreviated_word)
                 ->addColumn('action', 'students.datatable.action')
                 ->rawColumns(['action', 'gender'])
-                ->toJson();
+            ->toJson();
         }
 
         $schoolClasses = SchoolClass::select('id', 'name')->orderBy('name')->get();
@@ -82,17 +67,30 @@ class StudentController extends Controller
         return redirect()->route('students.index')->with('success', 'Data berhasil ditambahkan!');
     }
 
+    // /**
+    //  * Load edit form
+    //  *
+    //  * @param \Illuminate\Http\StudentStoreRequest $request
+    //  * @param \App\Models\Student $student
+    //  * @return \Illuminate\Http\RedirectResponse
+    //  */
+    // public function edit(Int $id)
+    // {
+    //     $model = Student::with('school_class:id,name', 'school_major:id,name,abbreviated_word')->findOrFail($id);
+
+    //     return view('students.modal.edit', compact('model'));
+    // }
+
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\StudentUpdateRequest  $request
+     * @param  \App\Http\Request\StudentUpdateRequest  $request
      * @param  \App\Models\Student  $student
      * @return \Illuminate\Http\RedirectResponse
      */
     public function update(StudentUpdateRequest $request, Student $student): RedirectResponse
     {
         $student->update($request->validated());
-
         return redirect()->route('students.index')->with('success', 'Data berhasil diubah!');
     }
 
@@ -105,7 +103,6 @@ class StudentController extends Controller
     public function destroy(Student $student): RedirectResponse
     {
         $student->delete();
-
         return redirect()->route('students.index')->with('success', 'Data berhasil dihapus!');
     }
 }

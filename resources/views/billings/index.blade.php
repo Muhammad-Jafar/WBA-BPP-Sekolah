@@ -44,13 +44,13 @@
       <div class="d-flex justify-content-end pb-3">
          <div class="btn-group d-gap gap-2">
 						@role('admin')
-							<a href="{{ route('billings.export') }}" class="btn btn-success">
+							{{-- <a href="{{ route('billings.export') }}" class="btn btn-success">
 								<i class="bi bi-file-earmark-excel-fill"></i>
 								Export Excel
-							</a>
-							<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addBillingsModal">
+							</a> --}}
+							{{-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addBillingsModal">
 								<i class="bi bi-plus-circle"></i> Tambah Data
-							</button>
+							</button> --}}
             @endrole
          </div>
       </div>
@@ -73,9 +73,9 @@
 </section>
 @endsection
 
-@push('modal')
+{{-- @push('modal')
 @include('billings.modal.create')
-@endpush
+@endpush --}}
 
 
 @push('js')

@@ -123,14 +123,14 @@
 
 	@include('utilities.alert-flash-message')
 	<div class="col card px-3 py-3">
-		<div class="d-flex justify-content-end pb-3">
+		{{-- <div class="d-flex justify-content-end pb-3">
 			<div class="btn-group d-gap gap-2">
 				<a href="{{ route('cash-transactions.export') }}" class="btn btn-success">
 					<i class="bi bi-file-earmark-excel-fill"></i>
 					Export Excel
 				</a>
 			</div>
-		</div>
+		</div> --}}
 
 		<div class="table-responsive">
 			<table class="table table-sm w-100" id="datatable">

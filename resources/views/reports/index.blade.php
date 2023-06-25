@@ -1,4 +1,4 @@
-@extends('layouts.main', ['title' => 'Laporan', 'page_heading' => 'Data Laporan'])
+@extends('layouts.main', ['title' => 'Laporan', 'page_heading' => 'Data laporan'])
 
 @section('content')
 <section>
@@ -95,21 +95,31 @@
 					<thead>
 						<tr>
 							<th scope="col">#</th>
-							<th scope="col">Nama Siswa</th>
 							<th scope="col">Tanggal</th>
-							<th scope="col">Nominal Bayar</th>
-							<th scope="col">Pencatat</th>
+							<th scope="col">Nama Siswa</th>
+							<th scope="col">NIS</th>
+							<th scope="col">Kelas</th>
+							<th scope="col">Jurusan</th>
+							<th scope="col">Angkatan</th>
+							<th scope="col">Telah Lunas</th>
+							<th scope="col">Sisa tagihan</th>
+							<th scope="col">Status</th>
 						</tr>
 					</thead>
 					<tbody>
 						@foreach ($filteredResult['cashTransactions'] as $cashTransaction)
-						<tr>
-							<th>{{ $loop->iteration }}</th>
-							<td>{{ $cashTransaction->students->name }}</td>
-							<td>{{ date('d-m-Y', strtotime($cashTransaction->paid_on)) }}</td>
-							<td>{{ indonesianCurrency($cashTransaction->amount) }}</td>
-							<td>{{ $cashTransaction->users->name }}</td>
-						</tr>
+							<tr>
+								<th>{{ $loop->iteration }}</th>
+								<td>{{ date('d-m-Y', strtotime($cashTransaction->updated_at)) }}</td>
+								<td>{{ $cashTransaction->students->name }}</td>
+								<td>{{ $cashTransaction->students->student_identification_number }}</td>
+								<td>{{ $cashTransaction->students->school_class->name }}</td>
+								<td>{{ $cashTransaction->students->school_major->abbreviated_word }}</td>
+								<td>{{ $cashTransaction->students->school_year_start }}</td>
+								<td>{{ indonesianCurrency($cashTransaction->recent_bill) }}</td>
+								<td>{{ indonesianCurrency($cashTransaction->billings - $cashTransaction->recent_bill) }}</td>
+								<td>{{ $cashTransaction->status }}</td>
+							</tr>
 						@endforeach
 					</tbody>
 					<tfoot>
