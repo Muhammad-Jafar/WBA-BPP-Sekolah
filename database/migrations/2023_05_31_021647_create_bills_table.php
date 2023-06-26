@@ -18,7 +18,7 @@ class CreateBillsTable extends Migration
             $table->foreignId('student_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
             $table->bigInteger('billings')->default(840000);
             $table->bigInteger('recent_bill')->default(0);
-            $table->enum('status', ['DONE', 'NOT YET'])->default('NOT YET');
+            $table->enum('status', ['YA', 'BELUM'])->default('BELUM');
             $table->timestamps();
         });
     }

@@ -37,7 +37,7 @@
 	</div>
 	<div class="col-lg-8 d-none d-lg-block">
 		<div id="auth-right">
-			<img style="width:100%; height:100%; position: relative;" src="{{ asset('img/background/auth-bg-login.JPG') }}" alt="background-login">
+			<img style="width:100%; height:100%; position: relative;" src="{{ asset('img/background/auth-bg-login.jpg') }}" alt="background-login">
 		</div>
 	</div>
 </div>

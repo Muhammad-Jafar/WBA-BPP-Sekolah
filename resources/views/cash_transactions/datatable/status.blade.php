@@ -7,6 +7,10 @@
 		<span class="badge rounded-pill bg-success">
 			{{ $model->is_paid }}
 		</span>
+	@elseif ($model->is_paid == 'REJECTED')
+	<span class="badge rounded-pill bg-danger">
+		{{ $model->is_paid }}
+	</span>
 	@endif
 @endrole
 @role('supervisor')

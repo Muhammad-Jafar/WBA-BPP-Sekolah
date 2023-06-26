@@ -20,7 +20,7 @@ class BillSeeder extends Seeder
                 'student_id' => $i,
                 'billings' => 840000,
                 'recent_bill' => 0,
-                'status' => 'NOT YET',
+                'status' => 'BELUM',
             ]);
         }
     }

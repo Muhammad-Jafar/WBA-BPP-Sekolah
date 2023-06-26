@@ -1,9 +1,9 @@
-@if ($model->status == 'DONE')
+@if ($model->status == 'YA')
   <span class="badge bg-success">
-    {{ $model->status }} 
+    {{ $model->status }}
   </span>
 @else
   <span class="badge bg-warning">
-    {{ $model->status }} 
+    {{ $model->status }}
   </span>
 @endif
