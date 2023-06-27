@@ -26,7 +26,7 @@
 				</div>
 				<div class="form-group position-relative has-icon-left mb-4">
 					<input type="password" class="form-control form-control-xl @error('password') is-invalid @enderror"
-						name="password" id="password" placeholder="Password" value="secret" required>
+						name="password" id="password" placeholder="Password" value="admin" required>
 					<div class="form-control-icon">
 						<i class="bi bi-shield-lock"></i>
 					</div>
@@ -59,7 +59,7 @@
 					'password': password
 				},
 				success: function (res) {
-					localStorage.setItem('token', res.data);
+					localStorage.setItem('token', res.token);
 				}
 			});
 		});

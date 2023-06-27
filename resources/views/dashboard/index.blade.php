@@ -83,7 +83,7 @@
 				</a>
 			</div>
 		</div>
-
+		@include('dashboard.charts.chart')
 		<div class="row">
 			<div class="col-12 col-xl-12">
 				<div class="card">
