@@ -67,20 +67,6 @@ class StudentController extends Controller
         return redirect()->route('students.index')->with('success', 'Data berhasil ditambahkan!');
     }
 
-    // /**
-    //  * Load edit form
-    //  *
-    //  * @param \Illuminate\Http\StudentStoreRequest $request
-    //  * @param \App\Models\Student $student
-    //  * @return \Illuminate\Http\RedirectResponse
-    //  */
-    // public function edit(Int $id)
-    // {
-    //     $model = Student::with('school_class:id,name', 'school_major:id,name,abbreviated_word')->findOrFail($id);
-
-    //     return view('students.modal.edit', compact('model'));
-    // }
-
     /**
      * Update the specified resource in storage.
      *

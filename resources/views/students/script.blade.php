@@ -27,6 +27,7 @@
 			let url = "{{ route('api.student.edit', ':param') }}";
 			url = url.replace(':param', id);
 
+
 			let formActionURL = "{{ route('students.update', ':param') }}"
 			formActionURL = formActionURL.replace(':param', id);
 
@@ -42,6 +43,7 @@
 					'Authorization': 'Bearer ' + localStorage.getItem('token'),
 					'Accept': 'application/json',
 				},
+
 				success: function (response) {
 					loadingAlert.slideUp();
 
@@ -61,7 +63,6 @@
 				}
 			});
 		});
-
+		
 	});
 </script>
-

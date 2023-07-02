@@ -14,8 +14,7 @@
 						<div class="col-sm-12 col-md-12 col-lg-4">
 							<div class="mb-3">
 								<label for="student_identification_number" class="form-label">NIS</label>
-								<input type="number" class="form-control" name="student_identification_number"
-									id="student_identification_number" placeholder="Masukkan nis/nisn..">
+								<input type="number" class="form-control" name="student_identification_number" id="student_identification_number" placeholder="Masukkan nis/nisn..">
 							</div>
 						</div>
 
@@ -77,8 +76,7 @@
 						<div class="col-sm-6 col-md-6">
 							<div class="mb-3">
 								<label for="phone_number" class="form-label">Nomor Handphone</label>
-								<input type="number" class="form-control" name="phone_number" id="phone_number"
-									placeholder="Masukkan nomor handphone..">
+								<input type="number" class="form-control" name="phone_number" id="phone_number" placeholder="Masukkan nomor handphone..">
 							</div>
 						</div>
 					</div>
@@ -87,11 +85,9 @@
 						<div class="col-sm-12 col-md-12">
 							<label for="school_year_start">Tahun Ajaran</label>
 							<div class="input-group mb-3">
-								<input type="text" class="form-control" name="school_year_start" id="school_year_start"
-									placeholder="Masukkan awal tahun ajaran..">
-								<span class="input-group-text">-</span>
-								<input type="text" class="form-control" name="school_year_end" id="school_year_end"
-									placeholder="Masukkan akhir tahun ajaran..">
+								<input type="text" class="form-control" name="school_year_start" id="school_year_start" placeholder="Masukkan awal tahun ajaran..">
+									<span class="input-group-text">-</span>
+								<input type="text" class="form-control" name="school_year_end" id="school_year_end" placeholder="Masukkan akhir tahun ajaran..">
 							</div>
 						</div>
 					</div>

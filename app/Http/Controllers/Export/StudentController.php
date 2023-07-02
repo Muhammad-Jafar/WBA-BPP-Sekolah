@@ -41,7 +41,7 @@ class StudentController extends Controller implements ExcelExportInterface
         $sheet->setCellValue('D1', 'Jenis Kelamin');
         $sheet->setCellValue('E1', 'Kelas');
         $sheet->setCellValue('F1', 'Jurusan');
-        $sheet->setCellValue('G1', 'Tahun Ajaran');
+        $sheet->setCellValue('G1', 'Angkatan');
 
         foreach (range('A', 'G') as $paragraph) {
             $sheet->getColumnDimension($paragraph)->setAutoSize(true);
@@ -67,7 +67,7 @@ class StudentController extends Controller implements ExcelExportInterface
             $sheet->setCellValue('D' . $cell, $row->gender === 1 ? 'Laki-laki' : 'Perempuan');
             $sheet->setCellValue('E' . $cell, $row->school_class->name);
             $sheet->setCellValue('F' . $cell, $row->school_major->name);
-            $sheet->setCellValue('G' . $cell, $row->school_year_start . ' - ' . $row->school_year_end);
+            $sheet->setCellValue('G' . $cell, $row->school_year_start);
             $cell++;
             $sheet->getStyle('A1:G' . ($cell - 1))->applyFromArray(ExportRepository::setStyle());
         }

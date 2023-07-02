@@ -18,9 +18,7 @@ Route::redirect('/', 'login');
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', DashboardController::class)->name('dashboard')->middleware('role:admin|supervisor');
 
-    Route::resource('students', StudentController::class)->middleware('role:admin');
-    // Route::resource('students', StudentController::class)->except('create', 'show', 'edit')->middleware('role:admin');
-
+    Route::resource('students', StudentController::class)->except('create', 'show', 'edit')->middleware('role:admin');
 
     // Route::resource('administrators', AdministratorController::class)->except('create', 'show', 'edit', 'destroy')
     // ->middleware('role:admin|supervisor');

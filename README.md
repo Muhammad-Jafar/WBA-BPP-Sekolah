@@ -1,25 +1,24 @@
 # BPP-SEKOLAH
 
-Aplikasi pendataan pembayaran uang komite atau biaya penyelenggara pendidikan dibuat dengan Framework Laravel 9. Dengan sistem pembayaran menggunakan payment gateway. Aplikasi ini cocok untuk digunakan untuk di sekolah. <br>
+Aplikasi pendataan pembayaran uang komite atau biaya penyelenggara pendidikan (BPP).
+Dibuat dengan Framework Laravel 9. Dengan sistem pembayaran menggunakan payment gateway. Aplikasi ini cocok untuk digunakan untuk di sekolah. <br>
 
-Beberapa CRUD menggunakan modal dan AJAX untuk pengambilan data agar mengurangi penggunaan pindah halaman. Dan seluruh menu menggunakan DataTable Server Side Processing.
+Beberapa CRUD menggunakan modal dan AJAX untuk pengambilan data agar mengurangi penggunaan pindah halaman. 
+Dan seluruh menu menggunakan DataTable Server Side Processing.
 
 ### Prasyarat
 
 Berikut beberapa hal yang perlu diinstal terlebih dahulu:
 
 -   Composer (https://getcomposer.org/)
--   PHP ^8.1.x
+-   PHP ^8.1.x (bisa menggunakan XAMPP atau Laragon untuk local server-sidenya)
 -   MySQL RDBMS
 
 ### Fitur
 
 -   CRUD Data Siswa
--   CRUD Data Kelas
--   CRUD Data Jurusan
--   CRUD Data Transaksi
--   CRUD Data Tagihan
--   CRUD Data Administrator
+-   CRU Data Transaksi
+-   CRU Data Tagihan
 -   Laporan
 
 ### Langkah-langkah instalasi
@@ -83,11 +82,11 @@ Email       : admin@mail.com
 Password    : admin
 ```
 
-##### Supervisor
+##### Kepala sekolah
 
 ```
-Email       : spv@mail.com
-Password    : supervisor
+Email       : kepsek@mail.com
+Password    : kepsek
 ```
 
 ##### Siswa
@@ -105,7 +104,7 @@ Password    : siswa
 
 ### Pembuat
 
--   **Muhammad Jafar**  - [muhammadjafar](https://github.com/Muhammad-Jafar)
+-   **Muhammad Jafar**  - [Jafar131](https://github.com/Muhammad-Jafar)
 
 ### Lisensi
 

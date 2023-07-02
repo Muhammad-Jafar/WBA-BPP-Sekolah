@@ -14,8 +14,8 @@ Route::name('api.')->prefix('v1')->group(function () {
     Route::post('/login/student', [LoginController::class, 'loginStudent'])->name('login.student');
 
     Route::middleware('jwt')->group(function () {
-        // Route::get('/student/{id}', [StudentController::class, 'show'])
-        // ->name('student.show')->middleware('role:admin');
+        Route::get('/student/{id}', [StudentController::class, 'show'])
+        ->name('student.show')->middleware('role:admin');
 
         Route::get('/student/{id}/edit', [StudentController::class, 'edit'])
         ->name('student.edit')->middleware('role:admin');
@@ -34,7 +34,7 @@ Route::name('api.')->prefix('v1')->group(function () {
         Route::post('/transaction/status', [CashTransactionController::class, 'status'])
         ->name('cash-transaction.status');
 
-        // Route::get('/chart', DashboardChartController::class)->name('chart')->middleware('role:admin');
+        Route::get('/chart', DashboardChartController::class)->name('chart')->middleware('role:admin|supervisor');
 
         Route::post('/logout', [LogoutController::class, 'logout'])->name('logout')->middleware('role:student|admin|supervisor');
     });

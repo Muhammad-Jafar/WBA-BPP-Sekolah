@@ -1,6 +1,10 @@
 @role('admin')
 	<div class="btn-group" role="group">
 			<div class="mx-1">
+				{{-- <a href="{{ route('students.edit', $model->id) }}">
+					<button type="button" class="btn btn-success"><i class="bi bi-pencil-square"></i></button>
+				</a> --}}
+
 					<button type="button" data-id="{{ $model->id }}" class="btn btn-success student-edit"
 						data-bs-toggle="modal" data-bs-target="#editStudentModal">
 						<i class="bi bi-pencil-square"></i>

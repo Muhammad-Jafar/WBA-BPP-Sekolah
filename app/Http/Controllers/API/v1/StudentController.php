@@ -30,5 +30,7 @@ class StudentController extends Controller implements APIInterface
             'code' => Response::HTTP_OK,
             'data' => $student
         ]);
+
+
     }
 }
